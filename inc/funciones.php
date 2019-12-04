@@ -45,17 +45,18 @@
             $var = str_replace("'", "", $var);
             $var = str_replace("-", "", $var);
             $var = str_replace("=", "", $var);
-
+		
             $_SESSION['ultimocid'] = $var;
-
+			
 		        (new log())->registrar($_SESSION['nombre'], "Colaborador seleccionado", "SELECT NOMBRE_Y_APELLIDO FROM `colaboradores` WHERE cod_func = $var limit 1", true);
-
+			
             if(isset($_GET['dateIni']) AND isset($_GET['dateEnd']) AND isset($_GET['consulta'])) {
+					
 			        if(($_GET['dateIni'] == "NaN-NaN-NaN") OR ($_GET['dateEnd'] == "NaN-NaN-NaN")){
 				        $_GET['dateIni'] = "1900-01-01";
 				        $_GET['dateEnd'] = date("Y-m-d");
 			        }
-      
+				
               $query        = new query();
               $fechaInicio  = $_GET['dateIni'];
               $fechaFin     = $_GET['dateEnd'];
@@ -277,8 +278,11 @@
                   error_log("E10".$var);
                   $antlaborales = $query->queryJson("SELECT FUNC_NRO_ANTECEDENTE, FUNC_EMPRESA, FUNC_FECHA_DESDE, FUNC_FECHA_HASTA FROM COLABORADOR_ANTECEDENTE_LABORAL WHERE FUNC_CODIGO = $var", "antlaborales");
                 } else {
+				   // COMENTAR ESTO PARA PRUEBAS
                   $antlaborales = null;
                   error_log("N10".$var);
+				  
+				   
                 }
 		          } else {
                 error_log("Permiso a colaborador $var denegado...");
@@ -291,7 +295,14 @@
                 $capacitaciones = null;
                 $antlaborales   = null;
               }
-        
+				
+				if($academico == ""){
+					$academico = null;
+				}
+				if($antlaborales == ""){
+					$antlaborales = null;
+				}
+				
               $arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales);
               header('Content-Type: application/json');  
               echo json_encode($arrayName);
@@ -364,7 +375,7 @@
             } else {
               $query                  = new query();
               $datos                  = $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;0;'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title FROM COLABORADOR_BASICOS WHERE COD_FUNC = (SELECT COD_FUNC FROM COLABORADOR_BASICOS WHERE COD_CARGO = 1146)", "datos");
-              $datos[0]['children']   =  $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;'+CONVERT(varchar(10),((NIVEL_JERARQUIA * 50)))+';'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel FROM COLABORADOR_BASICOS WHERE TRANSVERSAL = 0 AND COD_JERARQUIA = 11 AND CARGO IS NOT NULL AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']." ORDER BY POSICION_ORGANIGRAMA DESC", "childrens");
+              $datos[0]['children']   =  $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;'+CONVERT(varchar(10),((NIVEL_JERARQUIA * 50)))+';'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel FROM COLABORADOR_BASICOS WHERE TRANSVERSAL = 0 AND COD_JERARQUIA in (11, 29, 36) AND CARGO IS NOT NULL AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']."  ORDER BY POSICION_ORGANIGRAMA DESC, nivel DESC", "childrens");
               $datos[0]['estructura'] = $query->queryJson("SELECT CB1.COD_JERARQUIA cod, CB1.JERARQUIA cargo, (SELECT COUNT(CB2.COD_JERARQUIA) FROM COLABORADOR_BASICOS CB2 WHERE CB2.COD_JERARQUIA = CB1.COD_JERARQUIA) cantidad FROM COLABORADOR_BASICOS CB1 WHERE CB1.COD_JERARQUIA IS NOT NULL GROUP BY CB1.COD_JERARQUIA, CB1.JERARQUIA, CB1.NIVEL_JERARQUIA ORDER BY CB1.NIVEL_JERARQUIA", "estructura");
               header('Content-Type: application/json');
               echo json_encode($datos[0]);

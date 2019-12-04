@@ -155,6 +155,10 @@
                                             
                                             <div for="" id="infogrado"></div>
                                             
+											<strong><label for="" id="titinfolaboral">Antecedentes Laborales:</label></strong>
+                                            
+                                            <div for="" class="tablaAntLaborales"></div>
+											
                                             <strong><label for="" style="display:none">Universidad:&nbsp;</label></strong><label style="display:none" for="" id="infouni"></label>
                                             <strong><label for="" style="display:none">Masterado:&nbsp;</label></strong><label for="" style="display: none" id="infomasterado"></label>
                                             <strong><label for="" style="display:none">Diplomado:&nbsp;</label></strong><label for="" style="display: none" id="infodiplomado"></label>
@@ -188,7 +192,7 @@
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Documentos')">Documentos</button>
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Capacitaciones')">Capacitaciones</button>
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Anotaciones')">Anotaciones</button>
-                                                        <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'AntLaborales')">Antecedentes Laborales</button>
+                                                        <button  style="display:none !important" class="w3-bar-item w3-button tablink" onclick="openTab(event, 'AntLaborales')">Antecedentes Laborales</button>
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Ficha')">Ficha personal</button>
                                                     </div>
                                                 </div>
@@ -340,7 +344,7 @@
                                         </table>
                                     </div>
 
-                                    <div id="AntLaborales" class="w3-container w3-border city" style="display:none ; height: 208px;overflow:auto;">
+                                    <div id="AntLaborales" class="w3-container w3-border city" style="display:none !important; height: 208px;overflow:auto;">
                                         <div class="filter" style="display:none" >
                                             <input type="date" name="iniantlaboral" id="iniantlaboral" class="form-control" value="" placeholder="Desde">
                                             <input type="date" name="endantlaboral" id="endantlaboral" class="form-control" value="" placeholder="Hasta">
@@ -432,6 +436,12 @@
         <script src="js/logregister.js"></script>
 
         <script>
+			$(document).on("click",".accordionList",function(){
+				$(".contenidogrupo .background-accordionList").removeClass("seleccionado_boton");
+				$(this).toggleClass("seleccionado_boton");
+				
+			})
+		
             function jsUcfirst(string) {
                 string = string.toLowerCase();
                 string = string.replace("subgerente", "sub gerente");
@@ -647,22 +657,41 @@
                                                 +'<br><br><div style="height: 2px; border-top: 6px #aaa; border-top-style: dashed;"></div></div></div></div> <div style="width:50%;border-left: 3px solid #aaa;"></div>';
                                             $(this).html(html);
                                         } else {
-                                            
+                                            var dato_seccion = $(".seleccionado_boton").data("id");
+											
                                             if (datos[3] != "") {
                                                 
                                                 var img     = datos[1].split("/");
                                                 datos[1]    = "http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/fotos/192.168.16.116:8081/"+img[(img.length-1)];
                                                 var height  = datos[3];
                                                 
-                                            if (datos[5] == 24 || datos[5] == 242 || datos[5] == 23 || datos[5] == 1318) {
-                                                // height = 50;
-                                            }
+                                            if(dato_seccion == 31 || dato_seccion == null){
+													 if (datos[5] == 24 || datos[5] == 242 || datos[5] == 23 || datos[5] == 1318) {
+													// height = 50;
+													}
+		   
+													if (datos[5] == 2463 || datos[5] == 186 || datos[5] == 1957) {
+														height = 200;
+													}
+													
+													if( datos[5] == 1686 ){
+														height = 250;
+													}
+													
+													if ((datos[5] == 1956 || datos[5] == 2189) && height != 0) {
+														height = 150;
+													}
+											}else {
+													 if (datos[5] == 24 || datos[5] == 242 || datos[5] == 23 || datos[5] == 1318) {
+														// height = 50;
+													}
 
-                                            if ((datos[5] == 1956 || datos[5] == 2189) && height != 0) {
-                                                height = 150;
-                                            }
+													if ((datos[5] == 1956 || datos[5] == 2189) && height != 0) {
+														height = 150;
+													}
+												}
 
-                                            var htmlJump= '<div style="display: flex;  height: '+height+'px;"><did style="background: white;height: 100%;  width: 50%;border-right: 3px solid #aaaaaa;"></did>  <div style="background: white;height: 100%;  width: 50%;  border-left: 3px solid #aaaaaa;"> </div></div>';
+                                            var htmlJump= '<div class="var_hor" style="display: flex;  height: '+height+'px;"><did style="background: white;height: 100%;  width: 50%;border-right: 3px solid #aaaaaa;"></did>  <div style="background: white;height: 100%;  width: 50%;  border-left: 3px solid #aaaaaa;"> </div></div>';
 
                                             $(this).addClass( "node2" );
                                             $(this).html("");
@@ -784,6 +813,28 @@
                                             }
                                         } else {
                                             document.getElementById("titinfogrado").style.display = "none";
+                                        }
+										if(result.antlaborales != null) {
+                                            $(".tablaAntLaborales").empty();
+                                            
+                                            
+                                            for (var i = 0; i < result.antlaborales.length; i++) {
+                                                var nroAntLaboral = result.antlaborales[i].FUNC_NRO_ANTECEDENTE;
+                                                var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
+                                                var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
+                                                var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
+
+                                                if (i != (result.antlaborales.length - 1)) {
+                                                    var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                } else {
+                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                }
+												$("#titinfolaboral").fadeIn();
+                                                $(".tablaAntLaborales").append(html).fadeIn();
+                                            }
+                                        } else {
+                                            $(".tablaAntLaborales").hide().empty();
+                                            $("#titinfolaboral").hide();
                                         }
 
                                         if(result.hobbies != null) {
@@ -1106,7 +1157,28 @@
                                                             } else {
                                                                 document.getElementById("titinfogrado").style.display = "none";
                                                             }
+															if(result.antlaborales != null) {
+															$(".tablaAntLaborales").empty();
+															
+															
+															for (var i = 0; i < result.antlaborales.length; i++) {
+																var nroAntLaboral = result.antlaborales[i].FUNC_NRO_ANTECEDENTE;
+																var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
+																var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
+																var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
+																if (i != (result.antlaborales.length - 1)) {
+																	 var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																} else {
+																	 var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																}
+																$("#titinfolaboral").fadeIn();
+																$(".tablaAntLaborales").append(html).fadeIn();
+															}
+														} else {
+															$(".tablaAntLaborales").hide().empty();
+															$("#titinfolaboral").hide();
+														}
                                                             if(result.hobbies != null) {
                                                                 for (var i = 0; i < result.hobbies.length; i++) {
                                                                     var hobbie      = result.hobbies[i].HOBBIE;
@@ -1375,26 +1447,27 @@
                                                             }
 
                                                             if(result.antlaborales != null) {
-                                                                $(".tablaAntLaborales").empty();
-                                                                $(".tablaAntLaborales").html('<thead style="background-color:#f5f5f5;"><tr><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Número</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Empresa</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Desde</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Hasta</td></tr></thead>');
-                                                                
-                                                                for (var i = 0; i < result.antlaborales.length; i++) {
-                                                                    var nroAntLaboral = result.antlaborales[i].FUNC_NRO_ANTECEDENTE;
-                                                                    var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
-                                                                    var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
-                                                                    var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
+																$(".tablaAntLaborales").empty();
+																
+																
+																for (var i = 0; i < result.antlaborales.length; i++) {
+																	var nroAntLaboral = result.antlaborales[i].FUNC_NRO_ANTECEDENTE;
+																	var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
+																	var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
+																	var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
-                                                                    if (i != (result.antlaborales.length - 1)) {
-                                                                        var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+nroAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+empAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+desAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+hasAntLaboral+'</td></tr>';
-                                                                    } else {
-                                                                        var html = '<tr class="tr"><td class="td" style="text-align:center;">'+nroAntLaboral+'</td><td class="td" style="text-align:center;">'+empAntLaboral+'</td><td class="td" style="text-align:center;">'+desAntLaboral+'</td><td class="td" style="text-align:center;">'+hasAntLaboral+'</td></tr>';
-                                                                    }
-
-                                                                    $(".tablaAntLaborales").append(html);
-                                                                }
-                                                            } else {
-                                                                $(".tablaAntLaborales").empty();
-                                                            }
+																	if (i != (result.antlaborales.length - 1)) {
+																		var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																	} else {
+																		 var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																	}
+																	$("#titinfolaboral").fadeIn();
+																	$(".tablaAntLaborales").append(html).fadeIn();
+																}
+															} else {
+																$(".tablaAntLaborales").hide().empty();
+																$("#titinfolaboral").hide();
+															}
 
                                                             if (result.movimientos != null ) {
                                                                 var auxCargo = "";
@@ -1569,7 +1642,28 @@
                                         } else {
                                             document.getElementById("titinfogrado").style.display = "none";
                                         }
+										if(result.antlaborales != null) {
+                                            $(".tablaAntLaborales").empty();
+                                            
+                                            
+                                            for (var i = 0; i < result.antlaborales.length; i++) {
+                                                var nroAntLaboral = result.antlaborales[i].FUNC_NRO_ANTECEDENTE;
+                                                var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
+                                                var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
+                                                var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
+                                                if (i != (result.antlaborales.length - 1)) {
+                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                } else {
+                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                }
+												$("#titinfolaboral").fadeIn();
+                                                $(".tablaAntLaborales").append(html).fadeIn();
+                                            }
+                                        } else {
+                                            $(".tablaAntLaborales").hide().empty();
+                                            $("#titinfolaboral").hide();
+                                        }
                                         if(result.hobbies != null) {
                                             for (var i = 0; i < result.hobbies.length; i++) {
                                                 var hobbie      = result.hobbies[i].HOBBIE;
@@ -1841,7 +1935,7 @@
 
                                         if(result.antlaborales != null) {
                                             $(".tablaAntLaborales").empty();
-                                            $(".tablaAntLaborales").html('<thead style="background-color:#f5f5f5;"><tr><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Número</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Empresa</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Desde</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Hasta</td></tr></thead>');
+                                            
                                             
                                             for (var i = 0; i < result.antlaborales.length; i++) {
                                                 var nroAntLaboral = result.antlaborales[i].FUNC_NRO_ANTECEDENTE;
@@ -1850,15 +1944,16 @@
                                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                                                 if (i != (result.antlaborales.length - 1)) {
-                                                    var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+nroAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+empAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+desAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+hasAntLaboral+'</td></tr>';
+                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 } else {
-                                                    var html = '<tr class="tr"><td class="td" style="text-align:center;">'+nroAntLaboral+'</td><td class="td" style="text-align:center;">'+empAntLaboral+'</td><td class="td" style="text-align:center;">'+desAntLaboral+'</td><td class="td" style="text-align:center;">'+hasAntLaboral+'</td></tr>';
+                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 }
-
-                                                $(".tablaAntLaborales").append(html);
+												$("#titinfolaboral").fadeIn();
+                                                $(".tablaAntLaborales").append(html).fadeIn();
                                             }
                                         } else {
-                                            $(".tablaAntLaborales").empty();
+                                            $(".tablaAntLaborales").hide().empty();
+                                            $("#titinfolaboral").hide();
                                         }
 
                                         if (result.movimientos != null ) {
@@ -2551,7 +2646,7 @@
             $('.btnFiltrarAntLaboral').on("click", function() {
                 $("#miniloading").fadeIn();
                 $(".tablaAntLaborales").empty();
-                $(".tablaAntLaborales").html('<thead style="background-color:#f5f5f5;"><tr><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Número</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Empresa</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Desde</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Hasta</td></tr></thead>');
+                
 
                 var ini             = $("#iniantlaboral").val();
                 var end             = $("#endantlaboral").val();
@@ -2594,15 +2689,18 @@
                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                                 if (i != (result.antlaborales.length - 1)) {
-                                    var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+nroAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+empAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+desAntLaboral+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke;">'+hasAntLaboral+'</td></tr>';
+                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';	
                                 } else {
-                                    var html = '<tr class="tr"><td class="td" style="text-align:center;">'+nroAntLaboral+'</td><td class="td" style="text-align:center;">'+empAntLaboral+'</td><td class="td" style="text-align:center;">'+desAntLaboral+'</td><td class="td" style="text-align:center;">'+hasAntLaboral+'</td></tr>';
+                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                 }
 
                                 $(".tablaAntLaborales").append(html);
+								$(".tablaAntLaborales").show();
+								$("#titinfolaboral").fadeIn();
                             }
                         } else {
-                            $(".tablaAntLaborales").empty();
+                            $(".tablaAntLaborales").empty().hide();
+							$("#titinfolaboral").hide();
                         }
 
                         $("#miniloading").fadeOut();
@@ -2716,11 +2814,29 @@
 
         <script type="text/javascript">
             function getOrganigrama(codGerencia, nomGerencia){
+				$(".contenidogrupo .background-accordionList").removeClass("seleccionado_boton");
                 var elements = $('.modal-overlay, .modal');
                 elements.removeClass('active');
                 console.log('llego');
                 CargaDiagrama("inc/funciones.php?funcion=selectRaiz&idGerencia="+codGerencia+"&gerencianame="+nomGerencia);
-            }
+            
+				$( document ).ajaxStop(function() {
+				  setTimeout(function(){
+					var contt = $(".orgchart td:first").find('.var_hor').length;
+					if(contt > 0 ){
+						$(".orgchart td:first").find('.var_hor').hide();
+					}
+				}, 500);
+				});
+				
+				
+				
+				
+				
+			
+			}
+			
+		
         </script>
     </body>
 </html>
