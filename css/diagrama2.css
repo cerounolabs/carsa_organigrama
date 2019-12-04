@@ -1,0 +1,103 @@
+.node2 {
+    width: 222px !important ;
+    height: 180px !important ;
+    border-radius: 25% !important;
+}
+
+.node.content {
+    line-height: 18px;
+}
+
+.ghost {
+    background: #66339900;
+    display: flex;
+}
+
+.transition {
+    -webkit-transform: scale(1.6);
+    -moz-transform: scale(1.6);
+    -o-transform: scale(1.6);
+    transform: scale(1.6);
+}
+
+.content {
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+}
+
+.grupooculto {
+    background-color: #c59d4d;
+    -webkit-transition: background-color 1000ms linear;
+    -ms-transition: background-color 1000ms linear;
+    transition: background-color 1000ms linear;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.th, .td {
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tr:hover {
+    background-color:#f5f5f5;
+}
+
+.accordionList {
+    border-left: 2px solid #aaa;
+    border-right: 2px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    border-top: 1px solid #aaa;
+}
+
+.spamDown {
+    width: 29px;
+    text-align: center;
+    height: 29px;
+    float: right;
+    color: white;
+    border-radius: 22px;
+    float:right;
+}
+
+.background-theme{
+    /*PRODUCCION*/
+    /*background: #c59d4d !important;*/
+    /*TESTING*/
+    background: #549bd9 !important;
+}
+
+.background-border{
+    /*PRODUCCION*/
+    /*border-radius: 13px;
+    background: #fffcfc;
+    border: 2px solid #c59d4c !important;*/
+    /*TESTING*/
+    border-radius: 13px;
+    background: #fffcfc;
+    border: 2px solid #549bd9 !important;
+}
+
+.background-tab{
+    /*PRODUCCION*/
+    /*color: #fff !important;
+    background: #c59d4d !important;*/
+    /*TESTING*/
+    color: #fff !important;
+    background: #549bd9 !important;*
+}
+
+.background-accordionList{
+    /*PRODUCCION*/
+    /*padding: 10px;
+    background: rgb(197, 157, 77) none repeat scroll 0% 0%;*/
+    /*TESTING*/
+    padding: 10px;
+    background: rgb(84, 155, 217) none repeat scroll 0% 0%;
+}
