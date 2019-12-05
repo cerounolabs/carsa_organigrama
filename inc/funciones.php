@@ -190,7 +190,7 @@
               }
             } else {
               $query      = new query();	
-	            $academico  = $query->queryJson("SELECT LOWER(convert(varchar(100), row_number() OVER (ORDER BY ANTECEDENTE_ACADEMICO))+' ) ' + ANTECEDENTE_ACADEMICO) AS ANTECEDENTE_ACADEMICO FROM COLABORADOR_ANTECEDENTES WHERE COD_FUNC = $var", "academico");
+	            $academico  = $query->queryJson("SELECT LOWER(convert(varchar(100), row_number() OVER (ORDER BY ANTECEDENTE_ACADEMICO))+' ' + ANTECEDENTE_ACADEMICO) AS ANTECEDENTE_ACADEMICO FROM COLABORADOR_ANTECEDENTES WHERE COD_FUNC = $var", "academico");
               $info       = $query->queryJson("SELECT UNIVERSIDAD, MASTERADO, DIPLOMADO, EDAD, CAN_PER_DEP_ECO, TIPO_VIVIENDA, CAN_CONT_GASTOS, MOV_PROPIA, NRO_CEDULA, GERENCIA, SUPERIOR_INMEDIATO, FECHA_INGRESO, COD_GERENCIA FROM COLABORADOR_BASICOS WHERE COD_FUNC = $var", "academico2");
               $backups    = $query->queryJson("SELECT COD_FUNC, TIPO, CODIGO_BACKUP, NOMBRE_BACKUP FROM COLABORADOR_BACKUPS WHERE COD_FUNC = $var","backups");
 
@@ -278,7 +278,7 @@
                   error_log("E10".$var);
                   $antlaborales = $query->queryJson("SELECT FUNC_NRO_ANTECEDENTE, FUNC_EMPRESA, FUNC_FECHA_DESDE, FUNC_FECHA_HASTA FROM COLABORADOR_ANTECEDENTE_LABORAL WHERE FUNC_CODIGO = $var", "antlaborales");
                 } else {
-				   // COMENTAR ESTO PARA PRUEBAS
+				  //COMENTAR ESTO PARA PRUEBAS
                   $antlaborales = null;
                   error_log("N10".$var);
 				  
@@ -298,12 +298,13 @@
 				
 				if($academico == ""){
 					$academico = null;
+				}else {
+
 				}
 				if($antlaborales == ""){
 					$antlaborales = null;
 				}
-				
-              $arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales);
+			$arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales);
               header('Content-Type: application/json');  
               echo json_encode($arrayName);
             }
@@ -373,7 +374,7 @@
                 echo json_encode($datos[0]);
               }
             } else {
-              $query                  = new query();
+			  $query                  = new query();
               $datos                  = $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;0;'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title FROM COLABORADOR_BASICOS WHERE COD_FUNC = (SELECT COD_FUNC FROM COLABORADOR_BASICOS WHERE COD_CARGO = 1146)", "datos");
               $datos[0]['children']   =  $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;'+CONVERT(varchar(10),((NIVEL_JERARQUIA * 50)))+';'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel FROM COLABORADOR_BASICOS WHERE TRANSVERSAL = 0 AND COD_JERARQUIA in (11, 29, 36) AND CARGO IS NOT NULL AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']."  ORDER BY POSICION_ORGANIGRAMA DESC, nivel DESC", "childrens");
               $datos[0]['estructura'] = $query->queryJson("SELECT CB1.COD_JERARQUIA cod, CB1.JERARQUIA cargo, (SELECT COUNT(CB2.COD_JERARQUIA) FROM COLABORADOR_BASICOS CB2 WHERE CB2.COD_JERARQUIA = CB1.COD_JERARQUIA) cantidad FROM COLABORADOR_BASICOS CB1 WHERE CB1.COD_JERARQUIA IS NOT NULL GROUP BY CB1.COD_JERARQUIA, CB1.JERARQUIA, CB1.NIVEL_JERARQUIA ORDER BY CB1.NIVEL_JERARQUIA", "estructura");

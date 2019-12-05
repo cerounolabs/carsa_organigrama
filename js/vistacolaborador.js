@@ -214,9 +214,9 @@ function cargartablas(idcolaborador) {
                     var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                     if (i != (result.antlaborales.length - 1)) {
-                        var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                        var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                     } else {
-                         var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                         var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                     }
 
                     $(".tablaAntLaborales").append(html);
@@ -487,7 +487,7 @@ function cargartablas(idcolaborador) {
 
             if (result.antlaborales != null) {
                 $(".tablaAntLaborales").empty();
-                
+                // $(".tablaAntLaborales").html('<thead style="background-color:#f5f5f5;"><tr><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Número</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Empresa</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Desde</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Fecha Hasta</td></tr></thead>');
                 
                 for (var i = 0; i < result.antlaborales.length; i++) {
                     var nroAntLaboral = result.antlaborales[i].FUNC_NRO_ANTECEDENTE;
@@ -496,9 +496,9 @@ function cargartablas(idcolaborador) {
                     var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                     if (i != (result.antlaborales.length - 1)) {
-                         var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                         var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                     } else {
-                        var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                        var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                     }
 
                     $(".tablaAntLaborales").append(html);

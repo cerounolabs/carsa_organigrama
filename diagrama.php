@@ -825,9 +825,9 @@
                                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                                                 if (i != (result.antlaborales.length - 1)) {
-                                                    var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                    var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 } else {
-                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 }
 												$("#titinfolaboral").fadeIn();
                                                 $(".tablaAntLaborales").append(html).fadeIn();
@@ -1168,9 +1168,9 @@
 																var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
 																if (i != (result.antlaborales.length - 1)) {
-																	 var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																	 var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 																} else {
-																	 var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																	 var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 																}
 																$("#titinfolaboral").fadeIn();
 																$(".tablaAntLaborales").append(html).fadeIn();
@@ -1457,9 +1457,9 @@
 																	var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
 																	if (i != (result.antlaborales.length - 1)) {
-																		var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																		var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 																	} else {
-																		 var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+																		 var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 																	}
 																	$("#titinfolaboral").fadeIn();
 																	$(".tablaAntLaborales").append(html).fadeIn();
@@ -1653,9 +1653,9 @@
                                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                                                 if (i != (result.antlaborales.length - 1)) {
-                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 } else {
-                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 }
 												$("#titinfolaboral").fadeIn();
                                                 $(".tablaAntLaborales").append(html).fadeIn();
@@ -1944,9 +1944,9 @@
                                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                                                 if (i != (result.antlaborales.length - 1)) {
-                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 } else {
-                                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 }
 												$("#titinfolaboral").fadeIn();
                                                 $(".tablaAntLaborales").append(html).fadeIn();
@@ -2689,9 +2689,9 @@
                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
 
                                 if (i != (result.antlaborales.length - 1)) {
-                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';	
+                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';	
                                 } else {
-                                     var html = '<span>'+nroAntLaboral+' ) <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
+                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                 }
 
                                 $(".tablaAntLaborales").append(html);
