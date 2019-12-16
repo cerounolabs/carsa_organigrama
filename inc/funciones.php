@@ -45,17 +45,18 @@
             $var = str_replace("'", "", $var);
             $var = str_replace("-", "", $var);
             $var = str_replace("=", "", $var);
-
+		
             $_SESSION['ultimocid'] = $var;
-
+			
 		        (new log())->registrar($_SESSION['nombre'], "Colaborador seleccionado", "SELECT NOMBRE_Y_APELLIDO FROM `colaboradores` WHERE cod_func = $var limit 1", true);
-
+			
             if(isset($_GET['dateIni']) AND isset($_GET['dateEnd']) AND isset($_GET['consulta'])) {
+					
 			        if(($_GET['dateIni'] == "NaN-NaN-NaN") OR ($_GET['dateEnd'] == "NaN-NaN-NaN")){
 				        $_GET['dateIni'] = "1900-01-01";
 				        $_GET['dateEnd'] = date("Y-m-d");
 			        }
-      
+				
               $query        = new query();
               $fechaInicio  = $_GET['dateIni'];
               $fechaFin     = $_GET['dateEnd'];
@@ -189,7 +190,7 @@
               }
             } else {
               $query      = new query();	
-	            $academico  = $query->queryJson("SELECT LOWER(convert(varchar(100), row_number() OVER (ORDER BY ANTECEDENTE_ACADEMICO))+' ) ' + ANTECEDENTE_ACADEMICO) AS ANTECEDENTE_ACADEMICO FROM COLABORADOR_ANTECEDENTES WHERE COD_FUNC = $var", "academico");
+	            $academico  = $query->queryJson("SELECT LOWER(convert(varchar(100), row_number() OVER (ORDER BY ANTECEDENTE_ACADEMICO))+' ' + ANTECEDENTE_ACADEMICO) AS ANTECEDENTE_ACADEMICO FROM COLABORADOR_ANTECEDENTES WHERE COD_FUNC = $var", "academico");
               $info       = $query->queryJson("SELECT UNIVERSIDAD, MASTERADO, DIPLOMADO, EDAD, CAN_PER_DEP_ECO, TIPO_VIVIENDA, CAN_CONT_GASTOS, MOV_PROPIA, NRO_CEDULA, GERENCIA, SUPERIOR_INMEDIATO, FECHA_INGRESO, COD_GERENCIA FROM COLABORADOR_BASICOS WHERE COD_FUNC = $var", "academico2");
               $backups    = $query->queryJson("SELECT COD_FUNC, TIPO, CODIGO_BACKUP, NOMBRE_BACKUP FROM COLABORADOR_BACKUPS WHERE COD_FUNC = $var","backups");
 
@@ -277,8 +278,11 @@
                   error_log("E10".$var);
                   $antlaborales = $query->queryJson("SELECT FUNC_NRO_ANTECEDENTE, FUNC_EMPRESA, FUNC_FECHA_DESDE, FUNC_FECHA_HASTA FROM COLABORADOR_ANTECEDENTE_LABORAL WHERE FUNC_CODIGO = $var", "antlaborales");
                 } else {
+				  //COMENTAR ESTO PARA PRUEBAS
                   $antlaborales = null;
                   error_log("N10".$var);
+				  
+				   
                 }
 		          } else {
                 error_log("Permiso a colaborador $var denegado...");
@@ -291,8 +295,16 @@
                 $capacitaciones = null;
                 $antlaborales   = null;
               }
-        
-              $arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales);
+				
+				if($academico == ""){
+					$academico = null;
+				}else {
+
+				}
+				if($antlaborales == ""){
+					$antlaborales = null;
+				}
+			$arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales);
               header('Content-Type: application/json');  
               echo json_encode($arrayName);
             }
@@ -362,9 +374,41 @@
                 echo json_encode($datos[0]);
               }
             } else {
-              $query                  = new query();
+			  $query                  = new query();
               $datos                  = $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;0;'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title FROM COLABORADOR_BASICOS WHERE COD_FUNC = (SELECT COD_FUNC FROM COLABORADOR_BASICOS WHERE COD_CARGO = 1146)", "datos");
-              $datos[0]['children']   =  $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;'+CONVERT(varchar(10),((NIVEL_JERARQUIA * 50)))+';'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel FROM COLABORADOR_BASICOS WHERE TRANSVERSAL = 0 AND COD_JERARQUIA = 11 AND CARGO IS NOT NULL AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']." ORDER BY POSICION_ORGANIGRAMA DESC", "childrens");
+              $datos[0]['children']   =  $query->queryJson("SELECT izquierda.COD_FUNC AS id, 
+				izquierda.PRIMER_NOMBRE+' '+izquierda.PRIMER_APELLIDO+';'+
+				izquierda.FOTO_TARGET+';false;'+
+				CONVERT(varchar(10),((izquierda.NIVEL_JERARQUIA * 50)))+';'+
+				izquierda.USUARIO+';'+CONVERT(varchar(10),izquierda.COD_FUNC)+';'+
+				izquierda.ANTIGUEDAD+';'+izquierda.NOMBRE_Y_APELLIDO+';'+izquierda.NRO_CEDULA+';'+
+				izquierda.GERENCIA+';'+izquierda.SUPERIOR_INMEDIATO+';'+izquierda.FECHA_INGRESO AS name, 
+				izquierda.CARGO AS title, (izquierda.NIVEL_JERARQUIA * 100) AS nivel,
+				izquierda.POSICION_ORGANIGRAMA
+				FROM 
+					(SELECT top 100 * FROM COLABORADOR_BASICOS 
+						WHERE TRANSVERSAL = 0 AND COD_JERARQUIA in (11, 29, 36, 44) 
+						AND CARGO IS NOT NULL 
+						AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']."
+						AND POSICION_ORGANIGRAMA <> 'DERECHA'
+						ORDER BY POSICION_ORGANIGRAMA DESC, NIVEL_JERARQUIA * 100 DESC ) izquierda
+				UNION ALL
+				SELECT derecha.COD_FUNC AS id, 
+				derecha.PRIMER_NOMBRE+' '+derecha.PRIMER_APELLIDO+';'+
+				derecha.FOTO_TARGET+';false;'+
+				CONVERT(varchar(10),((derecha.NIVEL_JERARQUIA * 50)))+';'+
+				derecha.USUARIO+';'+CONVERT(varchar(10),derecha.COD_FUNC)+';'+
+				derecha.ANTIGUEDAD+';'+derecha.NOMBRE_Y_APELLIDO+';'+derecha.NRO_CEDULA+';'+
+				derecha.GERENCIA+';'+derecha.SUPERIOR_INMEDIATO+';'+derecha.FECHA_INGRESO AS name, 
+				derecha.CARGO AS title, (derecha.NIVEL_JERARQUIA * 100) AS nivel,
+				derecha.POSICION_ORGANIGRAMA
+				FROM 
+					(SELECT top 100 * FROM COLABORADOR_BASICOS 
+						WHERE TRANSVERSAL = 0 AND COD_JERARQUIA in (11, 29, 36, 44) 
+						AND CARGO IS NOT NULL 
+						AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']."
+						AND POSICION_ORGANIGRAMA = 'DERECHA'
+						ORDER BY POSICION_ORGANIGRAMA DESC, NIVEL_JERARQUIA * 100 ASC ) derecha", "childrens");
               $datos[0]['estructura'] = $query->queryJson("SELECT CB1.COD_JERARQUIA cod, CB1.JERARQUIA cargo, (SELECT COUNT(CB2.COD_JERARQUIA) FROM COLABORADOR_BASICOS CB2 WHERE CB2.COD_JERARQUIA = CB1.COD_JERARQUIA) cantidad FROM COLABORADOR_BASICOS CB1 WHERE CB1.COD_JERARQUIA IS NOT NULL GROUP BY CB1.COD_JERARQUIA, CB1.JERARQUIA, CB1.NIVEL_JERARQUIA ORDER BY CB1.NIVEL_JERARQUIA", "estructura");
               header('Content-Type: application/json');
               echo json_encode($datos[0]);
