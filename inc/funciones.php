@@ -376,7 +376,39 @@
             } else {
 			  $query                  = new query();
               $datos                  = $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;0;'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title FROM COLABORADOR_BASICOS WHERE COD_FUNC = (SELECT COD_FUNC FROM COLABORADOR_BASICOS WHERE COD_CARGO = 1146)", "datos");
-              $datos[0]['children']   =  $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;'+CONVERT(varchar(10),((NIVEL_JERARQUIA * 50)))+';'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel FROM COLABORADOR_BASICOS WHERE TRANSVERSAL = 0 AND COD_JERARQUIA in (11, 29, 36) AND CARGO IS NOT NULL AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']."  ORDER BY POSICION_ORGANIGRAMA DESC, nivel DESC", "childrens");
+              $datos[0]['children']   =  $query->queryJson("SELECT izquierda.COD_FUNC AS id, 
+				izquierda.PRIMER_NOMBRE+' '+izquierda.PRIMER_APELLIDO+';'+
+				izquierda.FOTO_TARGET+';false;'+
+				CONVERT(varchar(10),((izquierda.NIVEL_JERARQUIA * 50)))+';'+
+				izquierda.USUARIO+';'+CONVERT(varchar(10),izquierda.COD_FUNC)+';'+
+				izquierda.ANTIGUEDAD+';'+izquierda.NOMBRE_Y_APELLIDO+';'+izquierda.NRO_CEDULA+';'+
+				izquierda.GERENCIA+';'+izquierda.SUPERIOR_INMEDIATO+';'+izquierda.FECHA_INGRESO AS name, 
+				izquierda.CARGO AS title, (izquierda.NIVEL_JERARQUIA * 100) AS nivel,
+				izquierda.POSICION_ORGANIGRAMA
+				FROM 
+					(SELECT top 100 * FROM COLABORADOR_BASICOS 
+						WHERE TRANSVERSAL = 0 AND COD_JERARQUIA in (11, 29, 36, 44) 
+						AND CARGO IS NOT NULL 
+						AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']."
+						AND POSICION_ORGANIGRAMA <> 'DERECHA'
+						ORDER BY POSICION_ORGANIGRAMA DESC, NIVEL_JERARQUIA * 100 DESC ) izquierda
+				UNION ALL
+				SELECT derecha.COD_FUNC AS id, 
+				derecha.PRIMER_NOMBRE+' '+derecha.PRIMER_APELLIDO+';'+
+				derecha.FOTO_TARGET+';false;'+
+				CONVERT(varchar(10),((derecha.NIVEL_JERARQUIA * 50)))+';'+
+				derecha.USUARIO+';'+CONVERT(varchar(10),derecha.COD_FUNC)+';'+
+				derecha.ANTIGUEDAD+';'+derecha.NOMBRE_Y_APELLIDO+';'+derecha.NRO_CEDULA+';'+
+				derecha.GERENCIA+';'+derecha.SUPERIOR_INMEDIATO+';'+derecha.FECHA_INGRESO AS name, 
+				derecha.CARGO AS title, (derecha.NIVEL_JERARQUIA * 100) AS nivel,
+				derecha.POSICION_ORGANIGRAMA
+				FROM 
+					(SELECT top 100 * FROM COLABORADOR_BASICOS 
+						WHERE TRANSVERSAL = 0 AND COD_JERARQUIA in (11, 29, 36, 44) 
+						AND CARGO IS NOT NULL 
+						AND COD_SUPERIOR_INMEDIATO = ".$datos[0]['id']."
+						AND POSICION_ORGANIGRAMA = 'DERECHA'
+						ORDER BY POSICION_ORGANIGRAMA DESC, NIVEL_JERARQUIA * 100 ASC ) derecha", "childrens");
               $datos[0]['estructura'] = $query->queryJson("SELECT CB1.COD_JERARQUIA cod, CB1.JERARQUIA cargo, (SELECT COUNT(CB2.COD_JERARQUIA) FROM COLABORADOR_BASICOS CB2 WHERE CB2.COD_JERARQUIA = CB1.COD_JERARQUIA) cantidad FROM COLABORADOR_BASICOS CB1 WHERE CB1.COD_JERARQUIA IS NOT NULL GROUP BY CB1.COD_JERARQUIA, CB1.JERARQUIA, CB1.NIVEL_JERARQUIA ORDER BY CB1.NIVEL_JERARQUIA", "estructura");
               header('Content-Type: application/json');
               echo json_encode($datos[0]);

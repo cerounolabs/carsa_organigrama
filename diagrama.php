@@ -425,7 +425,24 @@
                 </div>
             </div>
         </div>
-
+		<style>
+			.tablaAntLaborales span{
+				text-transform: lowercase;
+				font-weight: 200;
+			}
+			.tablaAntLaborales span {
+				text-transform: capitalize;
+				font-weight: 200;
+			}
+			.tablaAntLaborales b {
+				font-weight: 200 !important;
+				text-transform: lowercase;
+				display: inline-block;
+					}
+			  .tablaAntLaborales b:first-line {
+				text-transform: capitalize !important;
+			  }
+		</style>
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.min.js"></script>
         <script type="text/javascript" src="js/jquery.orgchart.js"></script>
@@ -674,7 +691,7 @@
 														height = 200;
 													}
 													
-													if( datos[5] == 1686 ){
+													if( datos[5] == 1686 || datos[5] == 2048 ){
 														height = 250;
 													}
 													
