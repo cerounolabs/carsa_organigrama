@@ -161,13 +161,22 @@
 						$row['FUNC_NRO_ANTECEDENTE'] = utf8_encode($row['FUNC_NRO_ANTECEDENTE']);
 						$row['FUNC_EMPRESA']		 = utf8_encode($row['FUNC_EMPRESA']);
 						$row['FUNC_FECHA_DESDE']	 = utf8_encode($row['FUNC_FECHA_DESDE']);
-						$row['FUNC_FECHA_HASTA']	 = utf8_encode($row['FUNC_FECHA_HASTA']);
+                        $row['FUNC_FECHA_HASTA']	 = utf8_encode($row['FUNC_FECHA_HASTA']);
+                        
+                    } else if($funcion == "ends") {
+						$row['FECHA'] 				 = utf8_encode($row['FECHA']);
+						$row['EVENTO']				 = utf8_encode($row['EVENTO']);
+						$row['ARCHIVO']				 = utf8_encode($row['ARCHIVO']);
+						$row['NRO_EVENTO']	 		 = utf8_encode($row['NRO_EVENTO']);
 
                     } else if($funcion == "estructura") {
                         $row['cod']                 = utf8_encode($row['cod']);
                         $row['cargo']               = utf8_encode($row['cargo']);
                         $row['cantidad']            = utf8_encode($row['cantidad']);
-                    }
+                    
+                    } else if($funcion =="listarcolaboradores") {
+						$result[]					 = $row;
+					}
 
                     $result[] = $row;
                 }

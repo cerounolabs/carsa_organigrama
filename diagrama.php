@@ -194,6 +194,7 @@
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Anotaciones')">Anotaciones</button>
                                                         <button  style="display:none !important" class="w3-bar-item w3-button tablink" onclick="openTab(event, 'AntLaborales')">Antecedentes Laborales</button>
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Ficha')">Ficha personal</button>
+														<button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Ends')">END</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -418,6 +419,21 @@
                                             </strong>
                                         </table>
                                     </div>
+
+									<div id="Ends" class="w3-container w3-border city" style="display:none; height:208px; overflow:auto;">
+                                        <table class="table2 tablaEnds">
+                                            <thead>
+                                                <tr>
+                                                    <td class="td"></td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+
+									
+									
+									
+									
                                 </div>
                             </div>
                         </center>
@@ -426,33 +442,61 @@
             </div>
         </div>
 		<style>
+			/*
 			.tablaAntLaborales span{
 				text-transform: lowercase;
 				font-weight: 200;
 			}
 			.tablaAntLaborales span {
-				text-transform: capitalize;
+				text-transform: capitalize !important;
 				font-weight: 200;
 			}
 			.tablaAntLaborales b {
 				font-weight: 200 !important;
-				text-transform: lowercase;
+				text-transform: lowercase !important;
 				display: inline-block;
 					}
 			  .tablaAntLaborales b:first-line {
 				text-transform: capitalize !important;
 			  }
+			  */
+			  .tablaAntLaborales b {
+				font-weight: 200 !important;
+				}
 		</style>
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.min.js"></script>
-        <script type="text/javascript" src="js/jquery.orgchart.js"></script>
+        <script type="text/javascript" src="js/jquery.orgchart.js?v2.0"></script>
         <script type="text/javascript" src="js/configuraciones.js"></script>
         <script src="js/jquery.easy-autocomplete.js"></script>
         <script src="js/jquery.easy-autocomplete.min.js"></script>
-        <script src="js/vistacolaborador.js"></script>
+        <script src="js/vistacolaborador.js?v2.0"></script>
         <script src="js/logregister.js"></script>
 
         <script>
+		
+			$(document).on("click",".only",function(event){
+				event.preventDefault();
+				event.stopPropagation();
+				
+				var nroEv = $(this).data("nro");
+				var url_act = $(this).children("td").find("a").attr("href");
+				
+				var url_act = url_act.replace("\\","http://");
+				
+				
+				$(".repetido_"+nroEv).each(function() {
+					var url_act_R = $(this).children("td").find("a").attr("href");
+					var url_act_R = url_act_R.replace("\\","http://");
+					window.open(url_act_R, '_blank');
+				});
+				
+				
+				window.open(url_act, '_blank');
+				
+			})
+		
+		
 			$(document).on("click",".accordionList",function(){
 				$(".contenidogrupo .background-accordionList").removeClass("seleccionado_boton");
 				$(this).toggleClass("seleccionado_boton");
@@ -464,6 +508,24 @@
                 string = string.replace("subgerente", "sub gerente");
                 return string.charAt(0).toUpperCase() + string.slice(1);
             }
+			
+			function sentenceCase(str) {
+				str = str.toLowerCase();
+				var spart = str.split(" ");
+				for ( var i = 0; i < spart.length; i++ )
+				{
+					var j = spart[i].charAt(0).toUpperCase();
+					spart[i] = j + spart[i].substr(1);
+				}
+				
+				var ret = spart.join(" ");
+				
+				new_str = ret.toLowerCase().replace(/\b[a-z]/g, function(txtVal) {
+					return txtVal.toUpperCase();
+				});
+				
+				return new_str;
+			}
 
             function openTab(evt, cityName) {
                 var i, x, tablinks;
@@ -840,7 +902,7 @@
                                                 var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
                                                 var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
                                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+												var empAntLaboral = sentenceCase(empAntLaboral);
                                                 if (i != (result.antlaborales.length - 1)) {
                                                     var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 } else {
@@ -1183,7 +1245,7 @@
 																var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
 																var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
 																var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+																var empAntLaboral = sentenceCase(empAntLaboral);
 																if (i != (result.antlaborales.length - 1)) {
 																	 var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 																} else {
@@ -1417,6 +1479,46 @@
                                                                 $(".tablaDocumentos").empty();
                                                             }
 
+															if(result.ends != null) {
+                                                                $(".tablaEnds").empty();
+                                                                $(".tablaEnds").html('<thead style="background-color:#f5f5f5;"><tr><td class="td"></td></tr></thead>');
+
+                                                                for (var i = 0; i < result.ends.length; i++) {
+                                                                    var fechaEnd    = result.ends[i].FECHA + " - ";
+                                                                    var eventoEnd   = result.ends[i].EVENTO;
+                                                                    var pathEnd     = result.ends[i].ARCHIVO;
+																	var nroEnd      = result.ends[i].NRO_EVENTO;
+																	
+																	var fechaEnd = fechaEnd.replace(" 00:00:00.000"," ");
+                                                                    var fechaEnd = fechaEnd.replace("000","");
+                                                                    
+                                                                    if (i != (result.ends.length - 1)) {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    } else {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    }
+
+                                                                    $(".tablaEnds").append(html);
+                                                                }
+
+                                                                var seen = {};
+                                                                
+                                                                $('.tablaEnds tr').each(function() {
+                                                                    var txt = $(this).text();
+                                                                    var numero = $(this).data("nro");
+                                                                    if (seen[txt]){
+                                                                    $(this).css("display","none"); 
+                                                                    $(this).addClass("repetido_"+numero);
+                                                                    }else{
+                                                                    seen[txt] = true;
+                                                                    $(this).addClass("primero_"+numero);
+                                                                    $(this).addClass("only");
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                $(".tablaEnds").empty();
+                                                            }
+															
                                                             if(result.capacitaciones != null) {
                                                                 $(".tablaCapacitaciones").empty();
                                                                 $(".tablaCapacitaciones").html('<thead style="background-color:#f5f5f5;"><tr><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Número</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Empresa</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Curso</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Año</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Mes</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Horas</td></tr></thead>');
@@ -1472,7 +1574,10 @@
 																	var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
 																	var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
 																	var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+																	
+																	var empAntLaboral = sentenceCase(empAntLaboral);
+																	
+																	
 																	if (i != (result.antlaborales.length - 1)) {
 																		var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 																	} else {
@@ -1668,7 +1773,10 @@
                                                 var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
                                                 var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
                                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+												var empAntLaboral = sentenceCase(empAntLaboral);
+												
+												
+												
                                                 if (i != (result.antlaborales.length - 1)) {
                                                      var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 } else {
@@ -1903,7 +2011,50 @@
                                         } else {
                                             $(".tablaDocumentos").empty();
                                         }
+										if(result.ends != null) {
+                                                                $(".tablaEnds").empty();
+                                                                $(".tablaEnds").html('<thead style="background-color:#f5f5f5;"><tr><td class="td"></td></tr></thead>');
 
+                                                                for (var i = 0; i < result.ends.length; i++) {
+                                                                    var fechaEnd     = result.ends[i].FECHA + " - ";
+                                                                    var eventoEnd   = result.ends[i].EVENTO;
+                                                                    var pathEnd     = result.ends[i].ARCHIVO;
+																	var nroEnd     = result.ends[i].NRO_EVENTO;
+																	
+																	var fechaEnd = fechaEnd.replace(" 00:00:00.000"," ");
+																	var fechaEnd = fechaEnd.replace("000","");
+																	
+																	
+																	
+																	
+                                                                    if (i != (result.ends.length - 1)) {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    } else {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    }
+
+                                                                    $(".tablaEnds").append(html);
+																	
+																	
+                                                                }
+																var seen = {};
+																	$('.tablaEnds tr').each(function() {
+																	  var txt = $(this).text();
+																	  var numero = $(this).data("nro");
+																	  if (seen[txt]){
+																		$(this).css("display","none"); 
+																		$(this).addClass("repetido_"+numero);
+																	  }else{
+																		seen[txt] = true;
+																		$(this).addClass("primero_"+numero);
+																		$(this).addClass("only");
+																	  }
+																	});
+                                                            } else {
+                                                                $(".tablaEnds").empty();
+                                                            }
+										
+										
                                         if(result.capacitaciones != null) {
                                             $(".tablaCapacitaciones").empty();
                                             $(".tablaCapacitaciones").html('<thead style="background-color:#f5f5f5;"><tr><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Número</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Empresa</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Curso</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Año</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Mes</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Horas</td></tr></thead>');
@@ -1959,7 +2110,7 @@
                                                 var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
                                                 var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
                                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+												var empAntLaboral = sentenceCase(empAntLaboral);
                                                 if (i != (result.antlaborales.length - 1)) {
                                                      var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
                                                 } else {
@@ -2449,7 +2600,6 @@
             });
 
             $('.btnFiltrarDocumentos').on("click", function() {
-                $("#miniloading").fadeIn();
                 $(".tablaDocumentos").empty();
                 $(".tablaDocumentos").html('<thead style="background-color:#f5f5f5;"><tr><td class="td"></td></tr></thead>');
 
@@ -2704,7 +2854,7 @@
                                 var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
                                 var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
                                 var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+								var empAntLaboral = sentenceCase(empAntLaboral);
                                 if (i != (result.antlaborales.length - 1)) {
                                      var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';	
                                 } else {
