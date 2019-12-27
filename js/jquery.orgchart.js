@@ -1679,6 +1679,51 @@
                                                                 } else {
                                                                     $(".tablaDocumentos").empty();
                                                                 }
+																
+																if(result.ends != null) {
+                                                                $(".tablaEnds").empty();
+                                                                $(".tablaEnds").html('<thead style="background-color:#f5f5f5;"><tr><td class="td"></td></tr></thead>');
+
+                                                                for (var i = 0; i < result.ends.length; i++) {
+                                                                    var fechaEnd     = result.ends[i].FECHA + " - ";
+                                                                    var eventoEnd   = result.ends[i].EVENTO;
+                                                                    var pathEnd     = result.ends[i].ARCHIVO;
+																	var nroEnd     = result.ends[i].NRO_EVENTO;
+																	
+																	var fechaEnd = fechaEnd.replace(" 00:00:00.000"," ");
+																	var fechaEnd = fechaEnd.replace("000","");
+																	
+																	
+																	
+																	
+                                                                    if (i != (result.ends.length - 1)) {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    } else {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    }
+
+                                                                    $(".tablaEnds").append(html);
+																	
+																	
+                                                                }
+																var seen = {};
+																	$('.tablaEnds tr').each(function() {
+																	  var txt = $(this).text();
+																	  var numero = $(this).data("nro");
+																	  if (seen[txt]){
+																		$(this).css("display","none"); 
+																		$(this).addClass("repetido_"+numero);
+																	  }else{
+																		seen[txt] = true;
+																		$(this).addClass("primero_"+numero);
+																		$(this).addClass("only");
+																	  }
+																	});
+                                                            } else {
+                                                                $(".tablaEnds").empty();
+                                                            }
+																
+																
 
                                                                 if(result.capacitaciones != null) {
                                                                     $(".tablaCapacitaciones").empty();
@@ -1735,7 +1780,7 @@
 																	var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
 																	var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
 																	var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+																	var empAntLaboral = sentenceCase(empAntLaboral);
 																	if (i != (result.antlaborales.length - 1)) {
 																		var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 																	} else {
@@ -2165,6 +2210,50 @@
                                         } else {
                                             $(".tablaDocumentos").empty();
                                         }
+															
+															
+															if(result.ends != null) {
+                                                                $(".tablaEnds").empty();
+                                                                $(".tablaEnds").html('<thead style="background-color:#f5f5f5;"><tr><td class="td"></td></tr></thead>');
+
+                                                                for (var i = 0; i < result.ends.length; i++) {
+                                                                    var fechaEnd     = result.ends[i].FECHA + " - ";
+                                                                    var eventoEnd   = result.ends[i].EVENTO;
+                                                                    var pathEnd     = result.ends[i].ARCHIVO;
+																	var nroEnd     = result.ends[i].NRO_EVENTO;
+																	
+																	var fechaEnd = fechaEnd.replace(" 00:00:00.000"," ");
+																	var fechaEnd = fechaEnd.replace("000","");
+																	
+																	
+																	
+																	
+                                                                    if (i != (result.ends.length - 1)) {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    } else {
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                    }
+
+                                                                    $(".tablaEnds").append(html);
+																	
+																	
+                                                                }
+																var seen = {};
+																	$('.tablaEnds tr').each(function() {
+																	  var txt = $(this).text();
+																	  var numero = $(this).data("nro");
+																	  if (seen[txt]){
+																		$(this).css("display","none"); 
+																		$(this).addClass("repetido_"+numero);
+																	  }else{
+																		seen[txt] = true;
+																		$(this).addClass("primero_"+numero);
+																		$(this).addClass("only");
+																	  }
+																	});
+                                                            } else {
+                                                                $(".tablaEnds").empty();
+                                                            }
 
                                         if(result.capacitaciones != null) {
                                             $(".tablaCapacitaciones").empty();
@@ -2218,7 +2307,7 @@
 												var empAntLaboral = result.antlaborales[i].FUNC_EMPRESA;
 												var desAntLaboral = result.antlaborales[i].FUNC_FECHA_DESDE;
 												var hasAntLaboral = result.antlaborales[i].FUNC_FECHA_HASTA;
-
+												var empAntLaboral = sentenceCase(empAntLaboral);
 												if (i != (result.antlaborales.length - 1)) {
 													var html = '<span>'+nroAntLaboral+'  <b>'+empAntLaboral+'</b>. Desde:'+desAntLaboral+'; Hasta:'+hasAntLaboral+'.</span><br>';
 												} else {

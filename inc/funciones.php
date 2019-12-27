@@ -84,12 +84,12 @@
                     (new log())->registrar($_SESSION['nombre'], "Filtro aplicado a la tabla de salarios ".$fechaInicio."-".$fechaFin, "SELECT NOMBRE_Y_APELLIDO FROM `colaboradores` WHERE cod_func = $var LIMIT 1", true);
 
                     if (isset($_SESSION['permitidos']) AND in_array($var, $_SESSION['permitidos']) AND in_array("2".$var, $_SESSION['permisos'])) {
-//                      $salario    = $query->queryJson("SELECT COD_FUNC AS id, PERIODO AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, (SALARIO_BRUTO_FIJO + SALARIO_BRUTO_VARIABLE) AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIOS WHERE CONVERT(date, PERIODO, 103) > '$fechaInicio' AND CONVERT(date, PERIODO, 103) <= '$fechaFin' AND COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
+                      // $salario    = $query->queryJson("SELECT COD_FUNC AS id, PERIODO AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, (SALARIO_BRUTO_FIJO + SALARIO_BRUTO_VARIABLE) AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIOS WHERE CONVERT(date, PERIODO, 103) > '$fechaInicio' AND CONVERT(date, PERIODO, 103) <= '$fechaFin' AND COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
                       $salario    = $query->queryJson("SELECT COD_FUNC AS id, MES+'-'+CONVERT(VARCHAR(10), YEAR(PERIODO)) AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, TOTAL AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIO WHERE CONVERT(date, PERIODO, 103) > '$fechaInicio' AND CONVERT(date, PERIODO, 103) <= '$fechaFin' AND COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
                       $arrayName  = array('salario' => $salario);
                       echo json_encode($arrayName);
                     } else {
-                      $arrayName  = array('salario' => null);
+					            $arrayName  = array('salario' => null);
                       echo json_encode($arrayName);
                     }
                   }
@@ -208,10 +208,11 @@
                   $logros = null;
                   error_log("N1".$var);
                 }
-		
+        
+                //MODIFICAR OBTENER DATOS SALARIOS EN CASO DE TEST
 		            if (in_array("2".$var, $_SESSION['permisos'])) {
-                  error_log("E2".$var);
-//                  $salario  = $query->queryJson("SELECT TOP 6 COD_FUNC AS id, PERIODO AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, (SALARIO_BRUTO_FIJO + SALARIO_BRUTO_VARIABLE) AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIOS WHERE COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
+				          error_log("E2".$var);
+                  // $salario  = $query->queryJson("SELECT TOP 6 COD_FUNC AS id, PERIODO AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, (SALARIO_BRUTO_FIJO + SALARIO_BRUTO_VARIABLE) AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIOS WHERE COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
                   $salario  = $query->queryJson("SELECT TOP 6 COD_FUNC AS id, MES+'-'+CONVERT(VARCHAR(10), YEAR(PERIODO)) AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, TOTAL AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIO WHERE COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
                 } else { 
                   $salario  = null;
@@ -249,10 +250,11 @@
                   $hobbies      = null;
                   error_log("N6".$var);
                 }
-
+				
+				        //MODIFICAR OBTENER DATOS DOCUMENTOS EN CASO DE TEST
                 if (in_array("7".$var, $_SESSION['permisos'])) {
                   error_log("E7".$var);
-                  $documentos   = $query->queryJson("SELECT FUNC_TIPO, FUNC_DOCUMENTO, FUNC_PATH FROM COLABORADOR_DOCUMENTOS WHERE FUNC_CODIGO = $var", "documentos");
+                  $documentos   = $query->queryJson("SELECT FUNC_TIPO, FUNC_DOCUMENTO, FUNC_PATH FROM COLABORADOR_DOCUMENTOS WHERE FUNC_CODIGO = $var ", "documentos");
                 } else {
                   $documentos   = null;
                   error_log("N7".$var);
@@ -278,11 +280,19 @@
                   error_log("E10".$var);
                   $antlaborales = $query->queryJson("SELECT FUNC_NRO_ANTECEDENTE, FUNC_EMPRESA, FUNC_FECHA_DESDE, FUNC_FECHA_HASTA FROM COLABORADOR_ANTECEDENTE_LABORAL WHERE FUNC_CODIGO = $var", "antlaborales");
                 } else {
-				  //COMENTAR ESTO PARA PRUEBAS
+				          //COMENTAR ESTO PARA PRUEBAS
                   $antlaborales = null;
                   error_log("N10".$var);
-				  
-				   
+                }
+				
+				        //MODIFICAR OBTENER DATOS ENDS EN CASO DE TEST
+				        if (in_array("11".$var, $_SESSION['permisos'])) {
+                  error_log("E11".$var);
+                  $ends   = $query->queryJson("SELECT CONVERT(DATE, FECHA, 103) as FECHA, NRO_EVENTO, COD_EVENTO, EVENTO, ITEM, ARCHIVO FROM COLABORADOR_ENDS WHERE COD_FUNC = $var ORDER BY FECHA DESC", "ends");
+                  //$ends   = $query->queryJson("SELECT FORMAT(FECHA,'yyyy/MM/dd') as FECHA, NRO_EVENTO, COD_EVENTO, EVENTO, ITEM, ARCHIVO FROM COLABORADOR_ENDS WHERE COD_FUNC = $var ORDER BY FECHA DESC", "ends");
+                } else {
+                  $ends   = null;
+                  error_log("N11".$var);
                 }
 		          } else {
                 error_log("Permiso a colaborador $var denegado...");
@@ -294,20 +304,43 @@
                 $anotaciones    = null;
                 $capacitaciones = null;
                 $antlaborales   = null;
+                $ends   		    = null;
               }
 				
-				if($academico == ""){
-					$academico = null;
-				}else {
+              if($academico == ""){
+                $academico = null;
+              }else {
 
-				}
-				if($antlaborales == ""){
-					$antlaborales = null;
-				}
-			$arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales);
-              header('Content-Type: application/json');  
-              echo json_encode($arrayName);
+              }
+        
+            if($antlaborales == ""){
+              $antlaborales = null;
             }
+        /*
+            if($ends == ""){
+              $ends = null;
+            }else {
+              function utf8ize($mixed) {
+                if (is_array($mixed)) {
+                  foreach ($mixed as $key => $value) {
+                    $mixed[$key] = utf8ize($value);
+                  }
+                } else if (is_string ($mixed)) {
+                  return utf8_encode($mixed);
+                }
+                return $mixed;
+              }
+					    $ends = utf8ize($ends);
+				    }
+      */
+            $arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales, 'ends'=>$ends);
+              
+			  
+			  header('Content-Type: application/json');  
+			  echo json_encode($arrayName);
+			
+				
+			}
           }
           break;
 
@@ -428,7 +461,7 @@
         case 'logregister':
           {
             $accion = $_GET['actividad'];
-            (new log())->registrar($_SESSION['nombre'], $accion, "SELECT NOMBRE_Y_APELLIDO FROM `colaboradores` WHERE cod_func = ".$_SESSION['ultimocid']." LIMIT 1", true);
+			      (new log())->registrar($_SESSION['nombre'], $accion, "SELECT NOMBRE_Y_APELLIDO FROM `colaboradores` WHERE cod_func = ".$_SESSION['ultimocid']." LIMIT 1", true);
           }
           break;
 
