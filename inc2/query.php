@@ -239,9 +239,14 @@
 						$row['FUNC_FECHA_DESDE']	 = utf8_encode($row['FUNC_FECHA_DESDE']);
 						$row['FUNC_FECHA_HASTA']	 = utf8_encode($row['FUNC_FECHA_HASTA']);
 					} else if($funcion == "ends") {
+						/* MODIFICO PARA QUE LA URL SEA SOLO EL NOMBRE DEL ARCHIVO */
+						$url_end = $row['ARCHIVO'];
+						$url_end = str_replace('\\', '/', $url_end);						
+						$url_end = basename($url_end);						
+						
 						$row['FECHA'] 				 = utf8_encode($row['FECHA']);
 						$row['EVENTO']				 = utf8_encode($row['EVENTO']);
-						$row['ARCHIVO']				 = utf8_encode($row['ARCHIVO']);
+						$row['ARCHIVO']				 = utf8_encode($url_end);
 						$row['NRO_EVENTO']	 		 = utf8_encode($row['NRO_EVENTO']);
 					} else if($funcion =="estructura") {
 						$row['cod']					 = utf8_encode($row['cod']);
