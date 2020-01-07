@@ -551,36 +551,85 @@
             $(".btnbuscarcolaborador").click(function(){
                 var colaborador = $("#inputbuscarcolaborador").val();
                 colaborador     = colaborador.split("-");
+                colaborador     = colaborador.toString().match(/[^ ]+/g);
                 cargartablas(localStorage.getItem("idcolaboradorbusqueda"));
             })
 
+            function getColaboradoresData() {
+                var tmp = null;
+                $.ajax({
+                    'async': false,
+                    'type': "GET",
+                    'global': false,
+                    'dataType': 'json',
+                    'url': 'inc/colaboradores.php?listar=listar',
+                    'success': function (data) {
+                        tmp = data;
+                    }
+                });
+                return tmp;
+            }
+
             var options = {
-                url: "inc/colaboradores.php?listar=listar",
-                getValue: "nombre",
+                //url: "inc/colaboradores.php?listar=listar",
+                data: getColaboradoresData(),
+                getValue: "nombre_busqueda",
                 list: {
                     onClickEvent: function() {
-                        var value       = $("#inputbuscarcolaborador").getSelectedItemData().codigo;
-                        var codFunc     = $("#inputbuscarcolaborador").getSelectedItemData().codigo;
-			            var cargo       = $("#inputbuscarcolaborador").getSelectedItemData().cargo;
-			            var antiguedad  = $("#inputbuscarcolaborador").getSelectedItemData().antiguedad;
-			            var img         = $("#inputbuscarcolaborador").getSelectedItemData().img;
-			            var nombre      = $("#inputbuscarcolaborador").getSelectedItemData().nombre;
+                        var value           = $("#inputbuscarcolaborador").getSelectedItemData().codigo;
+                        var codFunc         = $("#inputbuscarcolaborador").getSelectedItemData().codigo;
+			            var cargo           = $("#inputbuscarcolaborador").getSelectedItemData().cargo;
+			            var antiguedad      = $("#inputbuscarcolaborador").getSelectedItemData().antiguedad;
+			            var img             = $("#inputbuscarcolaborador").getSelectedItemData().img;
+			            var nombre          = $("#inputbuscarcolaborador").getSelectedItemData().nombre;
+                        var nombre_busqueda = $("#inputbuscarcolaborador").getSelectedItemData().nombre_busqueda;
                         
 			            localStorage.setItem("colaboradordatos",nombre+"||"+cargo+"||"+antiguedad+"||"+img+"||"+codFunc);
 			            localStorage.setItem("idcolaboradorbusqueda",value);
                     },
                     match: {
                         enabled: true,
+                        
                         method: function(element, phrase) {
-                            if (element.search(phrase) > -1) {
-                                return true;
+                            var viewDiv = true;
+                            var array1  = element.toString().match(/[^ ]+/g);
+                            var array2  = phrase.toString().match(/[^ ]+/g);
+                            var array3  = [];
+
+                            if (array2.length == 1){
+                                if (element.search(phrase) > -1) {
+                                    array3[0] = true;
+                                } else {
+                                    array3[0] = false;
+                                }
                             } else {
-                                return false;
+                                for(var i = 0; i < array2.length; i++) {
+                                    for(var j = 0; j < array1.length; j++) {
+                                        if (array1[j].indexOf(array2[i]) > -1){
+                                            array3[i] = true;
+                                            break;
+                                        } else {
+                                            array3[i] = false;
+                                        }
+                                    }
+                                }
                             }
+
+                            for(var i = 0; i < array3.length; i++) {
+                                if (array3[i] === true && viewDiv === true) {
+                                    viewDiv = true;
+                                } else {
+                                    viewDiv = false;
+                                }
+                            }
+
+                            return viewDiv;
                         }
-                        /*method: function(element, phrase) {
+                        /*
+                        method: function(element, phrase) {
                             return (element.lastIndexOf(phrase, 0) === 0);
-                        }*/
+                        }
+                        */
                     }
                 },
                 theme: "square"
@@ -757,7 +806,7 @@
 														height = 250;
 													}
 													
-													if ((datos[5] == 1956 || datos[5] == 2189) && height != 0) {
+													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529) && height != 0) {
 														height = 150;
 													}
 											}else {
@@ -765,7 +814,7 @@
 														// height = 50;
 													}
 
-													if ((datos[5] == 1956 || datos[5] == 2189) && height != 0) {
+													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529) && height != 0) {
 														height = 150;
 													}
 												}
