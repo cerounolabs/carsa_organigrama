@@ -1,8 +1,15 @@
 <?php
     session_start();
-
-    if (isset($_SESSION['id_usuario'])) {
+	if (isset($_SESSION['id_usuario'])) {
         include "inc/resetpassword.php";
+		
+		include_once 'inc/conexionMySQL.php';
+		
+		$cod_fun = $_SESSION['COD_FUNC'];
+		$return_arr = array();
+		$conexion = new  conexionMySQL();
+		$conn = $conexion ->conectar();
+		
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +83,7 @@
         </nav>
 
         <div class="container-fluid text-center" style="padding:0px">
-            <div class="fullContent">
+            <div class="fullContent" style="min-height: calc( 100vh - 75px );">
                 <div class="divGrupos" >
                     <div class="background-theme" style="display: flex;height: 69px;">
                         <div id="gtitulo" style="width: 70%;">
@@ -93,18 +100,49 @@
                         </div>
                     </div>
 
-                    <div class="contenidogrupo" style="overflow:auto;">
+                    <div class="contenidogrupo" style="overflow:auto;min-height: 90%;">
+						<?php
+							$go1 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '1'";
+							$gpr1 = $conn->query($go1);
+							while($row1 = $gpr1->fetch_array(MYSQLI_NUM)){
+						?>
 	                    <div class="" style="display:flex; padding-left:5px; margin:5px; padding-right:5px;">
                             <input type="text" name="" id="inputbuscarcolaborador" class="form-control" value="" placeholder="Nombre">
                             <button type="button" name="button" class="btn btnbuscarcolaborador background-theme" ><i class="fa fa-search" aria-hidden="true"></i></button>
                         </div>
-
+						<?php
+							}
+						?>
+						<?php
+							$go2 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '2'";
+							$gpr2 = $conn->query($go2);
+							while($row2 = $gpr2->fetch_array(MYSQLI_NUM)){
+						?>
                         <div class="">
                             <table id = "resumen" class="tableRes" style="display:none"></table>
                         </div>
+						<?php
+							}
+						?>
+						
+						<?php
+							$go3 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '3'";
+							$gpr3 = $conn->query($go3);
+							while($row3 = $gpr3->fetch_array(MYSQLI_NUM)){
+						?>
+						<div class="tail">
+						
+						</div>
+						<?php
+							}
+						?>
                     </div>
                 </div>
-
+						<?php
+							$go4 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '4'";
+							$gpr4 = $conn->query($go4);
+							while($row4 = $gpr4->fetch_array(MYSQLI_NUM)){
+						?>
                 <div id="chart-container2" class="divDiagrama" style="overflow-x:scroll;display:none" >
                     <center>
                         <img src="img/loading-animation.gif" alt="Smiley face" width="100" height="100" style="margin-top: 25%;">
@@ -118,6 +156,9 @@
                         <span style="font-size: 25px;color: #bbb8b8;">Elija una categoria</span>
                     </span>
                 </div>
+						<?php
+							}
+						?>
             </div>
 
             <div class="modal-overlay">
@@ -419,8 +460,9 @@
                                             </strong>
                                         </table>
                                     </div>
-
 									<div id="Ends" class="w3-container w3-border city" style="display:none; height:208px; overflow:auto;">
+                                        
+
                                         <table class="table2 tablaEnds">
                                             <thead>
                                                 <tr>
@@ -571,7 +613,6 @@
             }
 
             var options = {
-                //url: "inc/colaboradores.php?listar=listar",
                 data: getColaboradoresData(),
                 getValue: "nombre_busqueda",
                 list: {
@@ -806,7 +847,7 @@
 														height = 250;
 													}
 													
-													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529) && height != 0) {
+													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529  || datos[5] == 186) && height != 0) {
 														height = 150;
 													}
 											}else {
@@ -814,7 +855,7 @@
 														// height = 50;
 													}
 
-													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529) && height != 0) {
+													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529  || datos[5] == 186) && height != 0) {
 														height = 150;
 													}
 												}
@@ -1527,47 +1568,51 @@
                                                             } else {
                                                                 $(".tablaDocumentos").empty();
                                                             }
-
 															if(result.ends != null) {
                                                                 $(".tablaEnds").empty();
                                                                 $(".tablaEnds").html('<thead style="background-color:#f5f5f5;"><tr><td class="td"></td></tr></thead>');
 
                                                                 for (var i = 0; i < result.ends.length; i++) {
-                                                                    var fechaEnd    = result.ends[i].FECHA + " - ";
+                                                                    var fechaEnd     = result.ends[i].FECHA + " - ";
                                                                     var eventoEnd   = result.ends[i].EVENTO;
                                                                     var pathEnd     = result.ends[i].ARCHIVO;
-																	var nroEnd      = result.ends[i].NRO_EVENTO;
+																	var nroEnd     = result.ends[i].NRO_EVENTO;
 																	
 																	var fechaEnd = fechaEnd.replace(" 00:00:00.000"," ");
-                                                                    var fechaEnd = fechaEnd.replace("000","");
-                                                                    
+																	var fechaEnd = fechaEnd.replace("000","");
+																	
+																	
+																	
+																	
                                                                     if (i != (result.ends.length - 1)) {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     } else {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     }
 
                                                                     $(".tablaEnds").append(html);
+																	
+																	
                                                                 }
-
-                                                                var seen = {};
-                                                                
-                                                                $('.tablaEnds tr').each(function() {
-                                                                    var txt = $(this).text();
-                                                                    var numero = $(this).data("nro");
-                                                                    if (seen[txt]){
-                                                                    $(this).css("display","none"); 
-                                                                    $(this).addClass("repetido_"+numero);
-                                                                    }else{
-                                                                    seen[txt] = true;
-                                                                    $(this).addClass("primero_"+numero);
-                                                                    $(this).addClass("only");
-                                                                    }
-                                                                });
+																var seen = {};
+																	$('.tablaEnds tr').each(function() {
+																	  var txt = $(this).text();
+																	  var numero = $(this).data("nro");
+																	  if (seen[txt]){
+																		$(this).css("display","none"); 
+																		$(this).addClass("repetido_"+numero);
+																	  }else{
+																		seen[txt] = true;
+																		$(this).addClass("primero_"+numero);
+																		$(this).addClass("only");
+																	  }
+																	});
                                                             } else {
                                                                 $(".tablaEnds").empty();
                                                             }
 															
+															
+
                                                             if(result.capacitaciones != null) {
                                                                 $(".tablaCapacitaciones").empty();
                                                                 $(".tablaCapacitaciones").html('<thead style="background-color:#f5f5f5;"><tr><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Número</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Empresa</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Curso</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Año</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Mes</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Horas</td></tr></thead>');
@@ -2077,9 +2122,9 @@
 																	
 																	
                                                                     if (i != (result.ends.length - 1)) {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     } else {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     }
 
                                                                     $(".tablaEnds").append(html);
@@ -2257,7 +2302,7 @@
                         gerencia    = toTitleCase(gerencia); 
                         var html    = '<div class="accordionList accordion'+result.gerencias[i].COD_GERENCIA+' background-accordionList" data-conten="'+gerencia+'" data-id="'+result.gerencias[i].COD_GERENCIA+'" style="background: white;padding:10px;"><div style="width:100%;display:flex" class="interDiv'+result.gerencias[i].COD_GERENCIA+'" data-id="'+result.gerencias[i].COD_GERENCIA+'"><div style="width: 70%"><spam class="acc_trigger spanLis" style="margin:0px;color:black">'+gerencia+' ('+result.gerencias[i].CANTIDAD+') ('+porDepto.toFixed(2)+'%)</spam></div> <div style="width: 30%"><spam class="spamDown background-theme" ><i class="fa arow fa-angle-right" aria-hidden="true" style="font-size:30px;cursor:pointer;"></i></spam></div></div><div class="acc_container" style="display: none;"><br><br><br><br></div></div>';
                         
-                        $(".contenidogrupo").append(html);
+                        $(".contenidogrupo .tail").append(html);
                         
                         var divs = $('.accordion>div>').hide();
                     

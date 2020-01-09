@@ -28,11 +28,11 @@
           while ($a == "null") {
             $aux = array();
             $cont= 0;
-
-            for ($i = 0; $i < COUNT($result) ; $i++) {
+            $resPaso2 = 0;
+            for ($i = 0; $i < COUNT($result); $i++) {
               $sql2  = "SELECT CB1.COD_FUNC, CB1.COD_SUPERIOR_INMEDIATO, (SELECT COUNT(CB2.COD_FUNC) FROM COLABORADOR_BASICOS CB2 WHERE CB2.COD_SUPERIOR_INMEDIATO = CB1.COD_FUNC) AS HIJOS FROM COLABORADOR_BASICOS CB1 WHERE CB1.COD_SUPERIOR_INMEDIATO = ".$result[$i]['COD_FUNC'];
-              $query2= mssql_query( $sql2);
-              
+              $query2= mssql_query($sql2);
+
               if($query2 === false) {
                 echo mssql_get_last_message();
               } else {
