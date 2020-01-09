@@ -407,9 +407,9 @@
                 echo json_encode($datos[0]);
               }
             } else {
-			  $query                  = new query();
+			        $query                  = new query();
               $datos                  = $query->queryJson("SELECT COD_FUNC AS id, PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;0;'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)+';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO+';'+NRO_CEDULA+';'+GERENCIA+';'+SUPERIOR_INMEDIATO+';'+FECHA_INGRESO AS name, CARGO AS title FROM COLABORADOR_BASICOS WHERE COD_FUNC = (SELECT COD_FUNC FROM COLABORADOR_BASICOS WHERE COD_CARGO = 1146)", "datos");
-              $datos[0]['children']   =  $query->queryJson("SELECT izquierda.COD_FUNC AS id, 
+              $datos[0]['children']   = $query->queryJson("SELECT izquierda.COD_FUNC AS id, 
 				izquierda.PRIMER_NOMBRE+' '+izquierda.PRIMER_APELLIDO+';'+
 				izquierda.FOTO_TARGET+';false;'+
 				CONVERT(varchar(10),((izquierda.NIVEL_JERARQUIA * 50)))+';'+

@@ -2,6 +2,7 @@
   session_start();
 
   if(isset($_SESSION['admin'])) {
+	include 'inc/conexionMySQL.php';
     $fecMes   = date('Y-m');
     $fecAux   = date('Y-m-d', strtotime("{$fecMes} + 1 month"));
     $fecDesde = date('Y-m-01');
@@ -124,6 +125,30 @@
         <div class="col-sm-3 text-left">
           <h3>Visualizacion de datos habilitados</h3>
           <div class="divPermisos"></div>
+		  <hr/>
+		  <h3>Opciones de Organigrama</h3>
+          <div class="divOpciones" style="display:none">
+			<?php
+				$conexion = new  conexionMySQL();
+				$conn = $conexion ->conectar();
+				$go = "select * from opciones order by nombre_opcion asc";
+				$gpr = $conn->query($go);
+				while($row = $gpr->fetch_array(MYSQLI_NUM)){
+					$nombre_opcion = $row[1];
+					$id_opcion = $row[0];
+			?>
+			<div class="checkbox" style="margin-top: 10px;"> 
+				<label> 
+					<input type="checkbox" name="opcion" value="<?php echo $id_opcion;?>"> 
+					<span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span><?php echo $nombre_opcion;?>
+				</label> 
+			</div>
+			
+			
+			<?php
+				}
+			?>
+		  </div>
         </div>
       </div>
     </div>
@@ -142,6 +167,72 @@
             filename: "logs.xls" //do not include extension
         });
       });
+	  
+	  function g_opciones(){
+		  var cod_usuario = $(".itemUsuario.list-group-item.active").data("func");
+		  
+		  if(cod_usuario > 0){
+		  
+		  $.ajax({
+				url: "inc/opciones.php",
+				type: "POST",
+				dataType:'json',
+				data: {o: 0, c : cod_usuario},
+				success: function(data) {
+					$(".divOpciones [type=checkbox]").prop("checked", false);	
+					jQuery.each(data, function(index, item) {
+						var id_opp = data[index].id_opcion;
+						$('input:checkbox[name="opcion"][value="' + id_opp + '"]').prop('checked', true);
+					});
+					
+					
+				},complete: function(){
+					$(".divOpciones").css('pointer-events','').css("opacity","1");
+				}
+			});
+		  }
+		  
+	  }
+	  
+	  
+	  $(".divOpciones [type=checkbox]").on("change",function(){
+		  var id_usuario = $(".itemUsuario.list-group-item.active").data("func");
+		  var id_opcion = $(this).val();
+		  $(".divOpciones").css('pointer-events','none').css("opacity","0.4");
+		  
+		  if(id_usuario > 0 && id_opcion > 0){
+		  $.ajax({
+				url: "inc/opciones.php",
+				type: "POST",
+				dataType:'json',
+				data: {o: id_opcion, c : id_usuario},
+				success: function(data) {
+					var status = data[0].status;
+					var mensaje = data[0].mensaje;
+					
+					if(status == "success"){
+						// alert("EXITO!: "+data[0].mensaje);
+					}else {
+						alert("ALERTA!: "+data[0].mensaje);
+					}
+					
+					
+				},complete: function(){
+					$(".divOpciones").css('pointer-events','').css("opacity","1");
+				}
+			})
+		  }else {
+			alert("Algo fue mal!");	
+		  }
+		  
+		  
+	  })
+	  
+	  $(document).on("click",".itemUsuario",function(){
+		  $(".divOpciones").fadeIn();
+		  g_opciones();
+	  })
+	  
     </script>
    
     <script type="text/javascript">
@@ -480,8 +571,10 @@
           });
 
           $('.itemUsuario').click(function() {
+			
             var result = setValuesAjax("", "inc/controlador.php", "selectPermisos", "asignacion", function(result) {
               $(".divPermisos").empty();
+			  $(".divOpciones [type=checkbox]").prop("checked", false);
               eachJson(result.moreData, function(json) {
                 var html='  <div class="checkbox" > <label> <input type="checkbox" class="permiso'+json.id+' itemPermiso" data-id= "'+json.id+'" value="10" > <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>'+json.nombre+'</label> </div>';
                 $(".divPermisos").append(html);
