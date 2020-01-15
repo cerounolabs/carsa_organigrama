@@ -839,11 +839,11 @@
 													// height = 50;
 													}
 		   
-													if (datos[5] == 2463 || datos[5] == 186 || datos[5] == 1957) {
+													if (datos[5] == 2463 || datos[5] == 186 || datos[5] == 1957 || datos[5] == 2548) {
 														height = 200;
 													}
 													
-													if( datos[5] == 1686 || datos[5] == 2048 ){
+													if( datos[5] == 1686 || datos[5] == 2048){
 														height = 250;
 													}
 													

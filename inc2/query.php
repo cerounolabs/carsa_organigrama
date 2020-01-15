@@ -144,12 +144,12 @@
 					}
 
 					if($funcion == "gerencias") {
-						if(in_array($row['COD_FUNC'], $_SESSION['permitidos'])) {
+					//	if(in_array($row['COD_FUNC'], $_SESSION['permitidos'])) {
 							$row['GERENCIA']		= utf8_encode($row['GERENCIA']);
  							$row['COD_GERENCIA']	= utf8_encode($row['COD_GERENCIA']);
-						} else {
-							$row					= null;
-						}
+					//	} else {
+					//		$row					= null;
+					//	}
 					} else if($funcion == "diagrama") {
 						error_log("diagrama");
  						$row['id']					 = utf8_encode($row['id']);
