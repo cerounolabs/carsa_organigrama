@@ -39,8 +39,8 @@
             <table class="table" style="width:100%">
               <tbody>
                 <tr>
-                  <td>Fecha Desde: <input type="date" id="desdeFilter" name="desdeFilter" value="<?php echo $fecDesde; ?>"></td>
-                  <td>Fecha Hasta: <input type="date" id="hastaFilter" name="hastaFilter" value="<?php echo $fecHasta; ?>"></td>
+                  <td>Fecha Desde: <input type="date" id="desdeFilter" name="desdeFilter" value="<?php echo $fecDesde; ?>" onblur="getLog();"></td>
+                  <td>Fecha Hasta: <input type="date" id="hastaFilter" name="hastaFilter" value="<?php echo $fecHasta; ?>" onblur="getLog();"></td>
                 </tr>
               </tbody>
             </table>
@@ -266,13 +266,23 @@
             });
         });
 
+        var fecDes  = document.getElementById('desdeFilter').value;
+        var fecHat  = document.getElementById('hastaFilter').value;
+        var urlDat  = 'http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/inc/consultalog.php?var01='+fecDes+'&var02='+fecHat; 
+
         var table = $('#logtable').DataTable({
           "orderCellsTop": true,
           "fixedHeader": true,
           "info": true,
           "searching"	: true,
 		      "paging"		: true,
-          "ajax": "http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/inc/consultalog.php?var01=2019-01-01&var02=2019-12-31",
+          "ajax": {
+              url: "http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/inc/consultalog.php",
+              data: function(d){
+                d.var01 = $('#desdeFilter').val();
+                d.var02 = $('#hastaFilter').val();
+              }
+          },
           "columns": [
             {"data": "USUARIO"},
             {"data": "FECHA"},
@@ -389,6 +399,11 @@
     </script>
 
     <script type="text/javascript">
+      function getLog() {
+        $('#logtable').DataTable().clear();
+        $('#logtable').DataTable().ajax.reload();
+      }
+
       function cargarColaboradores() {
       }
 

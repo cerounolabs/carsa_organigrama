@@ -316,23 +316,7 @@
             if($antlaborales == ""){
               $antlaborales = null;
             }
-        /*
-            if($ends == ""){
-              $ends = null;
-            }else {
-              function utf8ize($mixed) {
-                if (is_array($mixed)) {
-                  foreach ($mixed as $key => $value) {
-                    $mixed[$key] = utf8ize($value);
-                  }
-                } else if (is_string ($mixed)) {
-                  return utf8_encode($mixed);
-                }
-                return $mixed;
-              }
-					    $ends = utf8ize($ends);
-				    }
-      */
+
             $arrayName = array('informacion'=>$info, 'logros'=>$logros, 'salario'=>$salario, 'eventos'=>$eventos, 'movimientos'=>$movimientos, 'documentos'=>$documentos, 'dependencia'=>$dependencia, 'hobbies'=>$hobbies, 'backups'=>$backups, 'academico'=>$academico, 'anotaciones'=>$anotaciones, 'capacitaciones'=>$capacitaciones, 'antlaborales'=>$antlaborales, 'ends'=>$ends);
               
 			  
