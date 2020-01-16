@@ -179,9 +179,9 @@ function cargartablas(idcolaborador) {
 																	var fechaEnd = fechaEnd.replace("000","");
 																	
                                                                     if (i != (result.ends.length - 1)) {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     } else {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     }
 
                                                                    
@@ -499,9 +499,9 @@ function cargartablas(idcolaborador) {
 																	
 																	
                                                                     if (i != (result.ends.length - 1)) {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     } else {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="file:'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     }
 
                                                                     $(".tablaEnds").append(html);
