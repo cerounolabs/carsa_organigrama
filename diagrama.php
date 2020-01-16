@@ -843,7 +843,7 @@
 														height = 200;
 													}
 													
-													if( datos[5] == 1686 || datos[5] == 2048){
+													if( datos[5] == 1686 || datos[5] == 2048 || datos[5] == 80){
 														height = 250;
 													}
 													
