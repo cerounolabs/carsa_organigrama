@@ -5,6 +5,7 @@
       $connectionInfo = array("Database"=>"SISTEMAA", "UID"=>"sumar", "PWD"=>"carsa_2018", "CharacterSet"=>"UTF-8");
       $conn           = sqlsrv_connect($serverName, $connectionInfo);
 
+      
       if($conn) {
         return $conn;
       } else {
