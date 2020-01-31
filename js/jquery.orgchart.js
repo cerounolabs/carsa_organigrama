@@ -1697,9 +1697,9 @@
 																	
 																	
                                                                     if (i != (result.ends.length - 1)) {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     } else {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     }
 
                                                                     $(".tablaEnds").append(html);
@@ -1801,10 +1801,10 @@
                                                                     $(".tablaMovimientos").append('<thead style="background-color:#f5f5f5;"><tr class="tr"><td class="td" style="text-align:center;"> Desde </td><td class="td" style="text-align:center;">  Cargo </td><td class="td" style="text-align:center;">  Departamento/Oficina  </td></tr></thead>');
 
                                                                     for (var i = 0; i < result.movimientos.length; i++) {
-                                                                        if(result.movimientos[i].departamento != auxCargo) {
-                                                                            var html='<tr class="tr"><td class="td" style="text-align:center; text-transform: capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                                                        if(result.movimientos[i].cargo != auxCargo) {
+                                                                            var html='<tr class="tr"><td class="td" style="text-align:center; text-transform: capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                                                             $(".tablaMovimientos").append(html);
-                                                                            auxCargo = result.movimientos[i].departamento;
+                                                                            auxCargo = result.movimientos[i].cargo;
                                                                         }    
                                                                     }
                                                                 } else {
@@ -2229,9 +2229,9 @@
 																	
 																	
                                                                     if (i != (result.ends.length - 1)) {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left; border-bottom-color:whitesmoke;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     } else {
-                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigrama/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
+                                                                        var html = '<tr data-nro="'+nroEnd+'" class="tr"><td class="td" style="text-align:left;"><a href="http://intranet.carsa.com.py/wp-content/themes/sydney/organigramatesting/img/ends/192.168.16.116:8082/'+pathEnd+'" target="_blank"> '+fechaEnd+eventoEnd+' </a></td></tr>';
                                                                     }
 
                                                                     $(".tablaEnds").append(html);
@@ -2330,10 +2330,10 @@
                                             $(".tablaMovimientos").append('<thead style="background-color:#f5f5f5;"><tr class="tr"><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;"> Desde </td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">  Cargo </td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">  Departamento/Oficina  </td></tr></thead>');
 
                                             for (var i = 0; i < result.movimientos.length; i++){
-                                                if(result.movimientos[i].departamento != auxCargo) {
-                                                    var html='<tr class="tr"><td class="td" style="text-align:center; text-transform: capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                                if(result.movimientos[i].cargo != auxCargo) {
+                                                    var html='<tr class="tr"><td class="td" style="text-align:center; text-transform: capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform: capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                                     $(".tablaMovimientos").append(html);
-                                                    auxCargo = result.movimientos[i].departamento;
+                                                    auxCargo = result.movimientos[i].cargo;
                                                 }
                                             }
                                         } else {

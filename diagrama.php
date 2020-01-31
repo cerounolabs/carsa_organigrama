@@ -5,11 +5,10 @@
 		
 		include_once 'inc/conexionMySQL.php';
 		
-		$cod_fun = $_SESSION['COD_FUNC'];
+		$cod_fun    = $_SESSION['COD_FUNC'];
 		$return_arr = array();
-		$conexion = new  conexionMySQL();
-		$conn = $conexion ->conectar();
-		
+		$conexion   = new  conexionMySQL();
+		$conn   = $conexion ->conectar();
 ?>
 
 <!DOCTYPE html>
@@ -61,21 +60,21 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right" style="background: #222222;!important">
 <?php 
-    if ($_SESSION['rankings'] == "1") {
+        if ($_SESSION['rankings'] == "1") {
 ?>
                         <li style="padding:0px;background: #222222;!important"><a href="rankings"><span class="glyphicon glyphicon-stats"></span> Rankings</a></li>
 
 
 <?php
-	}
+	    }
 ?>
                         <li style="padding:0px;background: #222222;!important"><a href="#" data-url="<?php if(isset($_SESSION['nombre'])){echo "diagrama.php";}else{echo "loginUser.php";} ?>" id="salir"><span class="glyphicon glyphicon-log-in"></span> <?php if(isset($_SESSION['nombre'])){echo "Cerrar sesión";}else{echo "Iniciar sesión";} ?></a></li>
 <?php
-    if (isset($_SESSION['id_usuario'])) {
+        if (isset($_SESSION['id_usuario'])) {
 ?>
                         <li style="padding:0px;background: #222222;!important"><a  href="nuevacontrasena.php"><span class="glyphicon glyphicon-lock"></span> Cambiar contraseña</a></li>
 <?php
-    }
+        }
 ?>
                     </ul>
                 </div>
@@ -101,48 +100,49 @@
                     </div>
 
                     <div class="contenidogrupo" style="overflow:auto;min-height: 90%;">
-						<?php
-							$go1 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '1'";
-							$gpr1 = $conn->query($go1);
-							while($row1 = $gpr1->fetch_array(MYSQLI_NUM)){
-						?>
+<?php
+        $go1    = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '1'";
+        $gpr1   = $conn->query($go1);
+    
+        while($row1 = $gpr1->fetch_array(MYSQLI_NUM)){
+?>
 	                    <div class="" style="display:flex; padding-left:5px; margin:5px; padding-right:5px;">
                             <input type="text" name="" id="inputbuscarcolaborador" class="form-control" value="" placeholder="Nombre">
                             <button type="button" name="button" class="btn btnbuscarcolaborador background-theme" ><i class="fa fa-search" aria-hidden="true"></i></button>
                         </div>
-						<?php
-							}
-						?>
-						<?php
-							$go2 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '2'";
-							$gpr2 = $conn->query($go2);
-							while($row2 = $gpr2->fetch_array(MYSQLI_NUM)){
-						?>
+<?php
+        }
+
+        $go2    = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '2'";
+        $gpr2   = $conn->query($go2);
+
+        while($row2 = $gpr2->fetch_array(MYSQLI_NUM)){
+?>
                         <div class="">
                             <table id = "resumen" class="tableRes" style="display:none"></table>
                         </div>
-						<?php
-							}
-						?>
-						
-						<?php
-							$go3 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '3'";
-							$gpr3 = $conn->query($go3);
-							while($row3 = $gpr3->fetch_array(MYSQLI_NUM)){
-						?>
+<?php
+        }
+
+        $go3    = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '3'";
+        $gpr3   = $conn->query($go3);
+
+        while($row3 = $gpr3->fetch_array(MYSQLI_NUM)){
+?>
 						<div class="tail">
 						
 						</div>
-						<?php
-							}
-						?>
+<?php
+        }
+?>
                     </div>
                 </div>
-						<?php
-							$go4 = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '4'";
-							$gpr4 = $conn->query($go4);
-							while($row4 = $gpr4->fetch_array(MYSQLI_NUM)){
-						?>
+<?php
+        $go4    = "select id_opcion from opciones_relaciones where cod_usuario = '$cod_fun' and id_opcion = '4'";
+        $gpr4   = $conn->query($go4);
+
+        while($row4 = $gpr4->fetch_array(MYSQLI_NUM)){
+?>
                 <div id="chart-container2" class="divDiagrama" style="overflow-x:scroll;display:none" >
                     <center>
                         <img src="img/loading-animation.gif" alt="Smiley face" width="100" height="100" style="margin-top: 25%;">
@@ -156,9 +156,9 @@
                         <span style="font-size: 25px;color: #bbb8b8;">Elija una categoria</span>
                     </span>
                 </div>
-						<?php
-							}
-						?>
+<?php
+        }
+?>
             </div>
 
             <div class="modal-overlay">
@@ -233,7 +233,7 @@
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Documentos')">Documentos</button>
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Capacitaciones')">Capacitaciones</button>
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Anotaciones')">Anotaciones</button>
-                                                        <button  style="display:none !important" class="w3-bar-item w3-button tablink" onclick="openTab(event, 'AntLaborales')">Antecedentes Laborales</button>
+                                                        <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'AntLaborales')" style="display:none !important">Antecedentes Laborales</button>
                                                         <button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Ficha')">Ficha personal</button>
 														<button class="w3-bar-item w3-button tablink" onclick="openTab(event, 'Ends')">END</button>
                                                     </div>
@@ -1692,15 +1692,15 @@
                                                                 $(".tablaMovimientos").append('<thead style="background-color:#f5f5f5;"><tr class="tr"><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;"> Desde </td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">  Cargo </td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">  Departamento/Oficina  </td></tr></thead>');
 
                                                                 for (var i = 0; i < result.movimientos.length; i++) {
-                                                                    if(result.movimientos[i].departamento != auxCargo) {
+                                                                    if(result.movimientos[i].cargo != auxCargo) {
                                                                         if (i != (result.movimientos.length - 1)) {
-                                                                            var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                                                            var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                                                         } else {
-                                                                            var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                                                            var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                                                         }
 
                                                                         $(".tablaMovimientos").append(html);
-                                                                        auxCargo = result.movimientos[i].departamento;
+                                                                        auxCargo = result.movimientos[i].cargo;
                                                                     }
                                                                 }
                                                             } else {
@@ -2224,15 +2224,15 @@
                                             $(".tablaMovimientos").empty();
                                             $(".tablaMovimientos").append('<thead style="background-color:#f5f5f5;"><tr class="tr"><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;"> Desde </td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">  Cargo </td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">  Departamento/Oficina  </td></tr></thead>');
                                             for (var i = 0; i < result.movimientos.length; i++) {
-                                                if(result.movimientos[i].departamento != auxCargo) {
+                                                if(result.movimientos[i].cargo != auxCargo) {
                                                     if (i != (result.movimientos.length - 1)) {
-                                                        var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                                        var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                                     } else {
-                                                        var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                                        var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                                     }
 
                                                     $(".tablaMovimientos").append(html);
-                                                    auxCargo = result.movimientos[i].departamento;
+                                                    auxCargo = result.movimientos[i].cargo;
                                                 }
                                             }
                                         } else {
@@ -3019,15 +3019,15 @@
                             var auxCargo = "";
 
                             for (var i = 0; i < result.movimientos.length; i++) {
-                                if(result.movimientos[i].departamento != auxCargo) {
+                                if(result.movimientos[i].cargo != auxCargo) {
                                     if (i != (result.movimientos.length - 1)) {
-                                        var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                        var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                     } else {
-                                        var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                                        var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                                     }
 
                                     $(".tablaMovimientos").append(html);
-                                    auxCargo = result.movimientos[i].departamento;
+                                    auxCargo = result.movimientos[i].cargo;
                                 }
                             }
                         } else {

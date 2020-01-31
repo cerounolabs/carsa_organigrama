@@ -603,15 +603,15 @@ function cargartablas(idcolaborador) {
                 $(".tablaMovimientos").append('<thead style="background-color:#f5f5f5;"><tr class="tr"><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Desde</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Cargo</td><td class="td" style="text-align:center; font-weight:bold; color:#000000e0;">Departamento/Oficina</td></tr></thead>');
 
                 for (var i = 0; i < result.movimientos.length; i++) {
-                    if(result.movimientos[i].departamento != auxCargo) {
+                    if(result.movimientos[i].cargo != auxCargo) {
                         if (i != (result.movimientos.length - 1)) {
-                            var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                            var html = '<tr class="tr"><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; border-bottom-color:whitesmoke; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                         } else {
-                            var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].departamento)+'</td></tr>';
+                            var html = '<tr class="tr"><td class="td" style="text-align:center; text-transform:capitalize;">'+result.movimientos[i].desde+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td><td class="td" style="text-align:center; text-transform:capitalize;">'+jsUcfirst(result.movimientos[i].cargo)+'</td></tr>';
                         }
 
                         $(".tablaMovimientos").append(html);
-                        auxCargo = result.movimientos[i].departamento;
+                        auxCargo = result.movimientos[i].cargo;
                     }
                 }
             } else {
