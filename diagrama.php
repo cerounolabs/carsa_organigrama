@@ -2485,13 +2485,13 @@
 
                 var formattedDate1  = new Date(ini);
                 var d1              = formattedDate1.getDate();
-                var m1              =  formattedDate1.getMonth();
+                var m1              = formattedDate1.getMonth();
                 var y1              = formattedDate1.getFullYear();
                 m1                  += 1;  // JavaScript months are 0-11
 
                 var formattedDate2  = new Date(end);
                 var d2              = formattedDate2.getDate();
-                var m2              =  formattedDate2.getMonth();
+                var m2              = formattedDate2.getMonth();
                 var y2              = formattedDate2.getFullYear();
                 d2                  += 1;
                 m2                  += 1;  // JavaScript months are 0-11
@@ -2503,10 +2503,10 @@
                 if(m2 < 9){
                     m2 = "0"+m2
                 }
-
+/*
                 ini                 = (y1 + "-" + m1 + "-" + d1);
                 end                 = (y2 + "-" + m2 + "-" + d2);
-
+*/
                 var fijo            = 0;
                 var variable        = 0;
                 var total           = 0
