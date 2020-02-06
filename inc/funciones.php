@@ -85,7 +85,7 @@
 
                     if (isset($_SESSION['permitidos']) AND in_array($var, $_SESSION['permitidos']) AND in_array("2".$var, $_SESSION['permisos'])) {
                       // $salario    = $query->queryJson("SELECT COD_FUNC AS id, PERIODO AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, (SALARIO_BRUTO_FIJO + SALARIO_BRUTO_VARIABLE) AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIOS WHERE CONVERT(date, PERIODO, 103) > '$fechaInicio' AND CONVERT(date, PERIODO, 103) <= '$fechaFin' AND COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
-                      $salario    = $query->queryJson("SELECT COD_FUNC AS id, MES+'-'+CONVERT(VARCHAR(10), YEAR(PERIODO)) AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, TOTAL AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIO WHERE CONVERT(date, PERIODO, 103) > '$fechaInicio' AND CONVERT(date, PERIODO, 103) <= '$fechaFin' AND COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
+                      $salario    = $query->queryJson("SET LANGUAGE Spanish; SELECT COD_FUNC AS id, MES+'-'+CONVERT(VARCHAR(10), YEAR(PERIODO)) AS periodo, SALARIO_BRUTO_FIJO AS fijo, SALARIO_BRUTO_VARIABLE AS variable, TOTAL AS total, AGUINALDO AS aguinaldo, APORTE_PATRONAL AS aporte FROM COLABORADOR_SALARIO WHERE PERIODO >= '$fechaInicio' AND PERIODO <= '$fechaFin' AND COD_FUNC = $var ORDER BY CONVERT(DATE, PERIODO) DESC", "salario");
                       $arrayName  = array('salario' => $salario);
                       echo json_encode($arrayName);
                     } else {
