@@ -25,7 +25,8 @@
           $var = str_replace("-","",$var);
           $var = str_replace("=","",$var);
           $query = new query();
-          $result= $query->queryJson("select COD_FUNC AS id ,PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;'+CONVERT(varchar(10),((NIVEL_JERARQUIA * 50)))+';'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)  +';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO AS name ,CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel  from  COLABORADOR_BASICOS where TRANSVERSAL =0 AND COD_SUPERIOR_INMEDIATO =$var","SelectChildrens");
+//          $result= $query->queryJson("select COD_FUNC AS id ,PRIMER_NOMBRE+' '+PRIMER_APELLIDO+';'+FOTO_TARGET+';false;'+CONVERT(varchar(10),((NIVEL_JERARQUIA * 50)))+';'+USUARIO+';'+CONVERT(varchar(10),COD_FUNC)  +';'+ANTIGUEDAD+';'+NOMBRE_Y_APELLIDO AS name ,CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel  from  COLABORADOR_BASICOS where TRANSVERSAL =0 AND COD_SUPERIOR_INMEDIATO =$var","SelectChildrens");
+          $result= $query->queryJson("SELECT COD_FUNC AS id, RTRIM(LTRIM(PRIMER_NOMBRE)) + ' ' + RTRIM(LTRIM(PRIMER_APELLIDO)) + ';' + FOTO_TARGET + ';false;' + CONVERT(varchar(10),((NIVEL_JERARQUIA * 50))) + ';' + RTRIM(LTRIM(USUARIO)) + ';' + CONVERT(varchar(10),COD_FUNC) + ';' + ANTIGUEDAD + ';' + NOMBRE_Y_APELLIDO AS name, CARGO AS title, (NIVEL_JERARQUIA * 100) AS nivel FROM COLABORADOR_BASICOS WHERE TRANSVERSAL = 0 AND COD_SUPERIOR_INMEDIATO = $var ORDER BY (NIVEL_JERARQUIA * 100) DESC","SelectChildrens");
           header('Content-Type: application/json');
 		  //print_r($result);
           $arrayName = array('children' => $result);
