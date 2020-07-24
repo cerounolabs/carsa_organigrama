@@ -835,27 +835,32 @@
                                                 var height  = datos[3];
                                                 
                                             if(dato_seccion == 31 || dato_seccion == null){
-													 if (datos[5] == 24 || datos[5] == 242 || datos[5] == 23 || datos[5] == 1318) {
+                                                /*
+                                                    if ((datos[5] != 24 || datos[5] != 242 || datos[5] != 23 || datos[5] != 1318) && height == 100) {
+													    height = 150;
+													}
+*/
+													if (datos[5] == 24 || datos[5] == 242 || datos[5] == 23 || datos[5] == 1318) {
 													// height = 50;
 													}
+
+                                                    if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529  || datos[5] == 186 || datos[5] == 2039) && height != 0) {
+														height = 150;
+													}
 		   
-													if (datos[5] == 2463 || datos[5] == 186 || datos[5] == 1957 || datos[5] == 2548) {
+													if (datos[5] == 2463 || datos[5] == 1957 || datos[5] == 2548) {
 														height = 200;
 													}
 													
 													if( datos[5] == 1686 || datos[5] == 2048 || datos[5] == 80){
 														height = 250;
 													}
-													
-													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529  || datos[5] == 186) && height != 0) {
-														height = 150;
-													}
 											}else {
 													 if (datos[5] == 24 || datos[5] == 242 || datos[5] == 23 || datos[5] == 1318) {
 														// height = 50;
 													}
 
-													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529  || datos[5] == 186) && height != 0) {
+													if ((datos[5] == 1956 || datos[5] == 2189 || datos[5] == 230 || datos[5] == 529  || datos[5] == 186 || datos[5] == 2039) && height != 0) {
 														height = 150;
 													}
 												}
